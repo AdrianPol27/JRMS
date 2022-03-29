@@ -1,0 +1,23 @@
+body
+{
+    background: linear-gradient(rgba(0,0,50,0.5), rgba(0,0,50,0.5));
+    background-size: cover;
+    background-position: center;
+    text-decoration: none;
+    font-family: 'Courier New', Courier, monospace !important;
+}
+.login-box
+{
+    max-width: 700px;
+    float: none;
+    margin: 200px auto;
+}
+.login-style
+{
+    background: rgba(211, 211, 211, 0.5);
+    padding: 90px;  
+}
+.form-control
+{
+    background:transparent !important;
+}

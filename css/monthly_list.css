@@ -1,0 +1,7 @@
+.fluid-container > div 
+{
+	text-align: center;
+	outline: none;
+	font-family: sans-serif;
+	padding: 10px;
+}

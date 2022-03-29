@@ -1,0 +1,13 @@
+#table_container
+{
+	text-align: center;
+	outline: none;
+	font-family: sans-serif;
+	margin: 1.5% 0 0 1.5%;
+}
+
+#req_table
+{
+	text-align: center;
+	vertical-align: middle;
+}
