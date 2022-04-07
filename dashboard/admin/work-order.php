@@ -1,4 +1,22 @@
+<?php
 
+	session_start();
+
+  include_once("../.././functions.php"); // Include functions.php
+  $functions = new Functions(); // Create function object
+	$errors = array();
+
+	if (isset($_GET['request_id'])) {
+		$requestId = $_GET['request_id'];
+
+		$acceptRequest = $functions->acceptRequest($requestId);
+		if ($acceptRequest) {
+			array_push($errorSuccess, "Request Has Been Accepted!");
+		}
+
+	}
+
+?>
 <!doctype html>
 <html lang="en">
 	<head>
@@ -15,7 +33,7 @@
 			<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
 			<div class="navbar-nav">
 				<div class="nav-item text-nowrap">
-					<a class="nav-link px-3" href="#">Sign out</a>
+					<a class="nav-link px-3" href="../.././logout.php">Sign out</a>
 				</div>
 			</div>
 		</header>
@@ -57,56 +75,40 @@
 						<h1 class="h2">Work Order</h1>
 					</div>
 
+					<?php include('../.././errors.php'); ?>  
 					<div class="col-12">
 						<div class="table-responsive">
 							<table id="work-order-table" class="table table-bordered display nowrap w-100">
-								<thead>
+								<thead class="text-center">
 									<tr>
 										<th>ID</th>
+										<th>Requested By</th>
+										<th>Department</th>
+										<th>Requested Date</th>
+										<th>Completion Date</th>
 										<th>Status</th>
 										<th>Action</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody class="text-center">
+									<?php
+										$cnt = 1;
+										$fetchRequestForm = $functions->fetchRequestForm();
+										while($row = mysqli_fetch_array($fetchRequestForm)) {
+									?>
 									<tr>
-										<td>1</td>
-										<td>Pending</td>
+										<td><?= $cnt ?></td>
+										<td><?= $row['requested_by'] ?></td>
+										<td><?= $row['department'] ?></td>
+										<td><?= $row['requested_date'] ?></td>
+										<td><?= $row['completion_date'] ?></td>
+										<td><?= $row['status'] ?></td>
 										<td>
-											<a href="#" class="btn btn-info btn-sm">View</a>
-											<a href="#" class="btn btn-primary btn-sm">Update</a>
-											<a href="#" class="btn btn-danger btn-sm">Delete</a>
+											<a href="<?= $row['destination'] ?>" class="btn btn-info btn-sm w-100 mb-1">View</a> <br>
+											<a href="work-order.php?request_id=<?= $row['request_form_id'] ?>" class="btn btn-primary btn-sm w-100">Accept</a>
 										</td>
 									</tr>
-
-									<tr>
-										<td>2</td>
-										<td>Ongoing</td>
-										<td>
-											<a href="#" class="btn btn-info btn-sm">View</a>
-											<a href="#" class="btn btn-primary btn-sm">Update</a>
-											<a href="#" class="btn btn-danger btn-sm">Delete</a>
-										</td>
-									</tr>
-
-									<tr>
-										<td>2</td>
-										<td>Rejected</td>
-										<td>
-											<a href="#" class="btn btn-info btn-sm">View</a>
-											<a href="#" class="btn btn-primary btn-sm">Update</a>
-											<a href="#" class="btn btn-danger btn-sm">Delete</a>
-										</td>
-									</tr>
-
-									<tr>
-										<td>2</td>
-										<td>Completed</td>
-										<td>
-											<a href="#" class="btn btn-info btn-sm">View</a>
-											<a href="#" class="btn btn-primary btn-sm">Update</a>
-											<a href="#" class="btn btn-danger btn-sm">Delete</a>
-										</td>
-									</tr>
+									<?php $cnt=$cnt+1;} ?>
 								</tbody>
 							</table>
 						</div>

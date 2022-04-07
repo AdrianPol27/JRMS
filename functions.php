@@ -31,8 +31,23 @@
       return $result;
     }
 
-    function requestForm($requisitionerId, $workOrderNum, $location, $space, $desc, $priority, $requestor, $requestedOn, $requestedCompletion) {
-      $result = mysqli_query($this->dbh, "INSERT INTO request_form (requisitioner_id, work_order_num, location, space, description, priority, requestor, requested_on, requested_completion) VALUES ('$requisitionerId', '$workOrderNum', '$location', '$space', '$desc', '$priority', '$requestor', '$requestedOn', '$requestedCompletion')");
+    // function requestForm($requisitionerId, $workOrderNum, $location, $space, $desc, $priority, $requestor, $requestedOn, $requestedCompletion) {
+    //   $result = mysqli_query($this->dbh, "INSERT INTO request_form (requisitioner_id, work_order_num, location, space, description, priority, requestor, requested_on, requested_completion) VALUES ('$requisitionerId', '$workOrderNum', '$location', '$space', '$desc', '$priority', '$requestor', '$requestedOn', '$requestedCompletion')");
+    //   return $result;
+    // }
+    
+    function fetchRequestForm() {
+      $result = mysqli_query($this->dbh, "SELECT * FROM request_form_tbl");
+      return $result;
+    }
+
+    function requestForm($fileDestination, $requestedBy, $department, $requestedDate, $completionDate) {
+      $result = mysqli_query($this->dbh, "INSERT INTO request_form_tbl (destination, requested_by, department, requested_date, completion_date, status) VALUES ('$fileDestination', '$requestedBy', '$department', '$requestedDate', '$completionDate', 'Pending')");
+      return $result;
+    }
+
+    function acceptRequest($requestId) {
+      $result = mysqli_query($this->dbh, "UPDATE request_form_tbl SET status = 'Accepted' WHERE request_form_id = '$requestId'");
       return $result;
     }
 
