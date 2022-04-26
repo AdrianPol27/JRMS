@@ -17,27 +17,7 @@
   if (isset($_SESSION['last_name'])) {
     $lastName = $_SESSION['last_name'];
   }
-
-	if (isset($_POST['add_request'])) { // Kung ang add request button tuplokon
-		$requisitionerId = $_POST['requisitioner_id'];
-		$workOrderNum = $_POST['work_order_num'];
-		$location = $_POST['location'];
-		$space = $_POST['space'];
-		$desc = $_POST['desc'];
-		$priority = $_POST['priority'];
-		$requestor = $_POST['requestor'];
-		$requestedOn = $_POST['requested_on'];
-		$requestedCompletion = $_POST['requested_completion'];
-
-		$requestForm = $functions->requestForm($requisitionerId, $workOrderNum, $location, $space, $desc, $priority, $requestor, $requestedOn, $requestedCompletion);
-
-		if ($requestForm) {
-			array_push($errorSuccess, "Work request has been added successfully!");
-		} else {
-			array_push($errors, "An error occured when adding work request!");
-		}
-	}
-
+	
 ?>
 <!doctype html>
 <html lang="en">
@@ -96,7 +76,7 @@
 					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 						<h1>Work Request</h1>
 					</div>
-					<a href="" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addNewRequestModal">Add New Request</a>
+					<a href="index.php" class="btn btn-primary mb-3">Add New Request</a>
 					<?php include('../.././errors.php'); ?> 
 					<div class="col-12">
 						<div class="table-responsive">
@@ -104,47 +84,43 @@
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>Work Order &num;</th>
-										<th>Location</th>
-										<th>Space</th>
-										<th>Description</th>
+										<th>Department</th>
+										<th>Requested Date</th>
+										<th>Completion Date</th>
 										<th>Status</th>
-										<th>Priority</th>
-										<th>Assigned To</th>
-										<th>Requestor</th>
-										<th>Requested On</th>
-										<th>Requested Completion</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									<?php 
+									<?php
 										$cnt = 1;
-										$fetchRequestForm = $functions->fetchRequestFormUserId($userId);
-
-										if ($fetchRequestForm -> num_rows > 0) {
-											while ($row = $fetchRequestForm ->fetch_assoc()) {
+										$requestedBy = $firstName . ' ' . $middleName . ' ' . $lastName;
+										$fetchRequestFormUserId = $functions->fetchRequestFormUserId($requestedBy);
+										while($row = mysqli_fetch_array($fetchRequestFormUserId)) {
 									?>
 
 									<tr>
 										<td><?= $cnt ?></td>
-										<td><?= $row['work_order_num'] ?></td>
-										<td><?= $row['location'] ?></td>
-										<td><?= $row['space'] ?></td>
-										<td><?= $row['description'] ?></td>
-										<td>To be added</td>
-										<td><?= $row['priority'] ?></td>
-										<td>To be added</td>
-										<td><?= $row['requestor'] ?></td>
-										<td><?= $row['requested_on'] ?></td>
-										<td><?= $row['requested_completion'] ?></td>
+										<td><?= $row['department'] ?></td>
+										<td><?= $row['requested_date'] ?></td>
+										<td><?= $row['completion_date'] ?></td>
+										<td><?= $row['status'] ?></td>
 										<td>
-											<a href="#" class="btn btn-info">Edit</a>
-											<a href="#" class="btn btn-danger">Delete</a>
+											<?php
+												if ($row['status'] == 'Accepted') { ?>
+												<button class="btn btn-danger w-100" disabled>Cancel</button>
+											<?php	} else { ?>
+												<form action="cancel-request.php" method="post">
+													<input type="hidden" name="requested_by" value="<?= $requestedBy ?>">
+													<input type="hidden" name="file" value="<?= $row['destination'] ?>">
+												
+													<button type="submit" class="btn btn-danger w-100" name="cancel_btn">Cancel</button>
+												</form>
+											<?php } ?>
 										</td>
 									</tr>
 
-									<?php $cnt = $cnt + 1; } } ?>
+									<?php $cnt=$cnt+1;} ?>
 								</tbody>
 							</table>
 						</div>
@@ -152,62 +128,6 @@
 				</main>
 			</div>
 		</div>
-
-		<!-- Add new request modal -->
-		<form action="" method="post">
-			<div class="modal fade" id="addNewRequestModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Add New Request</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-							<div class="form-floating">
-								<input type="text" name="work_order_num" id="wordOrderNumber" class="form-control mb-2" placeholder="Work Order Number">
-								<label for="workOrderNumber">Work Order Number</label>
-							</div>
-							<div class="d-flex">
-								<div class="form-floating w-100 me-1">
-									<input type="text" name="location" id="location" class="form-control" placeholder="Location">
-									<label for="location">Location</label>
-								</div>
-								<div class="form-floating w-100 ms-1">
-									<input type="text" name="space" id="space" class="form-control" placeholder="Space">
-									<label for="space">Space</label>
-								</div>
-							</div>
-							<div class="form-floating my-2">
-								<textarea name="desc" id="desc" class="form-control" placeholder="Description" style="height: 150px; resize: none;"></textarea>
-								<label for="desc">Description</label>
-							</div>
-							<div class="form-floating">
-								<select name="priority" id="priority" class="form-select">
-									<option value="high">High</option>
-									<option value="medium">Medium</option>
-									<option value="scheduled">Scheduled</option>
-								</select>
-								<label for="priority">Priority</label>
-							</div>
-
-							<!-- Hidden Values -->
-							<input type="hidden" name="requisitioner_id" value="<?= $userId ?>">
-							<input type="hidden" name="requestor" value="<?= $firstName . ' ' . $middleName . ' ' . $lastName?>">
-              <input type='hidden' id="requestedOn" name="requested_on">
-              
-							<div class="form-floating mt-2">
-                <input type='date' class="form-control" id="requestedCompletion" name="requested_completion">
-                <label for="requestedCompletion">Requested Completion</label>
-              </div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary" name="add_request">Add Request</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
 
 	</body>
 </html>
