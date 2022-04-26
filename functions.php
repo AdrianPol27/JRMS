@@ -26,8 +26,12 @@
       return $result;
     }
 
-    function fetchRequestFormUserId($userId) {
-      $result = mysqli_query($this->dbh, "SELECT * FROM request_form WHERE requisitioner_id = '$userId'");
+    function fetchRequestFormUserId($requestedBy) {
+      $result = mysqli_query($this->dbh, "SELECT * FROM request_form_tbl WHERE requested_by = '$requestedBy'");
+      return $result;
+    }
+    function cancelRequest($requestedBy) {
+      $result = mysqli_query($this->dbh, "DELETE FROM request_form_tbl WHERE requested_by = '$requestedBy'");
       return $result;
     }
 
