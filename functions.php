@@ -30,10 +30,12 @@
       $result = mysqli_query($this->dbh, "SELECT * FROM request_form_tbl WHERE requested_by = '$requestedBy'");
       return $result;
     }
-    function cancelRequest($requestedBy) {
-      $result = mysqli_query($this->dbh, "DELETE FROM request_form_tbl WHERE requested_by = '$requestedBy'");
+    function cancelRequest($requestId) {
+      $result = mysqli_query($this->dbh, "DELETE FROM requests_tbl WHERE request_id = '$requestId'");
       return $result;
     }
+
+
 
     // function requestForm($requisitionerId, $workOrderNum, $location, $space, $desc, $priority, $requestor, $requestedOn, $requestedCompletion) {
     //   $result = mysqli_query($this->dbh, "INSERT INTO request_form (requisitioner_id, work_order_num, location, space, description, priority, requestor, requested_on, requested_completion) VALUES ('$requisitionerId', '$workOrderNum', '$location', '$space', '$desc', '$priority', '$requestor', '$requestedOn', '$requestedCompletion')");
@@ -41,7 +43,7 @@
     // }
     
     function fetchRequestForm() {
-      $result = mysqli_query($this->dbh, "SELECT * FROM request_form_tbl");
+      $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl");
       return $result;
     }
 
@@ -50,11 +52,52 @@
       return $result;
     }
 
-    function acceptRequest($requestId) {
-      $result = mysqli_query($this->dbh, "UPDATE request_form_tbl SET status = 'Accepted' WHERE request_form_id = '$requestId'");
+    function approveRequest($requestId) {
+      $result = mysqli_query($this->dbh, "UPDATE requests_tbl SET status = 'Approved' WHERE request_id = '$requestId'");
       return $result;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+    function addWork($userId, $department, $workToBeDone, $quantity, $unitCost, $laborNeeded) {
+      $totalCost = $quantity * $unitCost;
+      $result = mysqli_query($this->dbh, "INSERT INTO works_tbl (user_id, department, work_to_be_done, quantity, unit_cost, total_cost, labor_needed) VALUES ('$userId', '$department', '$workToBeDone', '$quantity', '$unitCost', '$totalCost', '$laborNeeded')");
+      return $result;
+    }
+    function removeWork($userId) {
+      $result = mysqli_query($this->dbh, "DELETE FROM works_tbl WHERE user_id = '$userId'");
+      return $result;
+    }
+    function fetchWorkUserId($userId) {
+      $result = mysqli_query($this->dbh, "SELECT * FROM works_tbl WHERE user_id = '$userId'");
+      return $result;
+    }
+    function fetchWorkInfo($userId) {
+      $result = mysqli_query($this->dbh, "SELECT CONCAT(work_to_be_done, ',', quantity, ',', unit_cost) AS works, total_cost FROM works_tbl WHERE user_id = '$userId'");
+      return $result;
+    }
+    function submitRequest($userId, $allWork, $firstName, $lastName, $department, $requestedDate) {
+      $requestedBy = $firstName . ' ' . $lastName;
+      $result = mysqli_query($this->dbh, "INSERT INTO requests_tbl (user_id, all_work, requested_by, department, requested_date, status) VALUES ('$userId', '$allWork', '$requestedBy', '$department', '$requestedDate', 'Pending')");
+      return $result;
+    }
+    function fetchRequestUserId($userId) {
+      $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE user_id = '$userId'");
+      return $result;
+    }
+    function fetchRequestRequestId($requestId) {
+      $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE request_id = '$requestId'");
+      return $result;
+    }
   }
 
 ?>
