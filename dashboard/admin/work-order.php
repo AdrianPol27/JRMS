@@ -9,9 +9,9 @@
 	if (isset($_GET['request_id'])) {
 		$requestId = $_GET['request_id'];
 
-		$acceptRequest = $functions->acceptRequest($requestId);
-		if ($acceptRequest) {
-			array_push($errorSuccess, "Request Has Been Accepted!");
+		$approveRequest = $functions->approveRequest($requestId);
+		if ($approveRequest) {
+			array_push($errorSuccess, "Request Has Been Approved!");
 		}
 
 	}
@@ -105,7 +105,10 @@
 										<td><?= $row['status'] ?></td>
 										<td>
 											<a href="<?= $row['destination'] ?>" class="btn btn-info btn-sm w-100 mb-1">View</a> <br>
-											<a href="work-order.php?request_id=<?= $row['request_form_id'] ?>" class="btn btn-primary btn-sm w-100">Accept</a>
+											<a href="work-order.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Approve</a> <br>
+											<?php if ($row['status'] == 'Approved') { ?>
+												<a href="download.php?request_id=<?= $row['request_id'] ?>" class="btn btn-secondary btn-sm w-100">Download</a>
+											<?php	} ?>
 										</td>
 									</tr>
 									<?php $cnt=$cnt+1;} ?>

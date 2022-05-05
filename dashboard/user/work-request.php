@@ -76,7 +76,7 @@
 					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 						<h1>Work Request</h1>
 					</div>
-					<a href="index.php" class="btn btn-primary mb-3">Add New Request</a>
+					<a href="add-new-request.php" class="btn btn-primary mb-3">Add New Request</a>
 					<?php include('../.././errors.php'); ?> 
 					<div class="col-12">
 						<div class="table-responsive">
@@ -94,9 +94,8 @@
 								<tbody>
 									<?php
 										$cnt = 1;
-										$requestedBy = $firstName . ' ' . $middleName . ' ' . $lastName;
-										$fetchRequestFormUserId = $functions->fetchRequestFormUserId($requestedBy);
-										while($row = mysqli_fetch_array($fetchRequestFormUserId)) {
+										$fetchRequestUserId = $functions->fetchRequestUserId($userId);
+										while($row = mysqli_fetch_array($fetchRequestUserId)) {
 									?>
 
 									<tr>
@@ -107,11 +106,11 @@
 										<td><?= $row['status'] ?></td>
 										<td>
 											<?php
-												if ($row['status'] == 'Accepted') { ?>
+												if ($row['status'] == 'Approved') { ?>
 												<button class="btn btn-danger w-100" disabled>Cancel</button>
 											<?php	} else { ?>
 												<form action="cancel-request.php" method="post">
-													<input type="hidden" name="requested_by" value="<?= $requestedBy ?>">
+													<input type="hidden" name="request_id" value="<?= $row['request_id'] ?>">
 													<input type="hidden" name="file" value="<?= $row['destination'] ?>">
 												
 													<button type="submit" class="btn btn-danger w-100" name="cancel_btn">Cancel</button>
@@ -126,6 +125,64 @@
 						</div>
 					</div>
 				</main>
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="staticBackdropLabel">Add New Request</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="form-floating">
+									<input type="text" name="department" id="department" class="form-control" placeholder="Department">
+									<label for="department">Department</label>
+								</div>
+								<div class="card mt-2">
+									<div class="card-header">
+										<h6 class="m-0">Nature of Work</h6>
+									</div>
+									<div class="card-body">
+										<div class="form-floating">
+											<input type="text" name="work_to_be_done" id="workToBeDone" class="form-control mt-1" placeholder="Work To Be Done">
+											<label for="workToBeDone">Work To Be Done</label>
+										</div>
+										<div class="d-flex">
+											<div class="form-floating me-1 w-50">
+												<input type="number" name="qty" id="qty" class="form-control mt-1" placeholder="Quantity">
+												<label for="qty">Quantity</label>
+											</div>
+											<div class="form-floating w-50">
+												<input type="number" name="unit_cost" id="unitCost" class="form-control mt-1" placeholder="Unit Cost">
+												<label for="unitCost">Unit Cost</label>
+											</div>
+										</div>
+										<div class="form-floating mt-1">
+											<input type="number" name="total_cost" id="totalCost" class="form-control mt-1" placeholder="Total Cost">
+											<label for="totalCost">Total Cost</label>
+										</div>
+										<div class="form-floating mt-1">
+											<input type="text" name="labor_needed" id="laborNeeded" class="form-control mt-1" placeholder="Labor Needed">
+											<label for="laborNeeded">Labor Needed</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+	
+						
+						
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Understood</button>
+					</div>
+				</div>
 			</div>
 		</div>
 
