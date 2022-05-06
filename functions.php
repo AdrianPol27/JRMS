@@ -68,13 +68,16 @@
 
 
 
-    function addWork($userId, $department, $workToBeDone, $quantity, $unitCost, $laborNeeded) {
-      $totalCost = $quantity * $unitCost;
-      $result = mysqli_query($this->dbh, "INSERT INTO works_tbl (user_id, department, work_to_be_done, quantity, unit_cost, total_cost, labor_needed) VALUES ('$userId', '$department', '$workToBeDone', '$quantity', '$unitCost', '$totalCost', '$laborNeeded')");
+    function addWork($userId, $department, $workToBeDone) {
+      $result = mysqli_query($this->dbh, "INSERT INTO works_tbl (user_id, department, work_to_be_done) VALUES ('$userId', '$department', '$workToBeDone')");
       return $result;
     }
     function removeWork($userId) {
       $result = mysqli_query($this->dbh, "DELETE FROM works_tbl WHERE user_id = '$userId'");
+      return $result;
+    }
+    function deleteWork($workId) {
+      $result = mysqli_query($this->dbh, "DELETE FROM works_tbl WHERE work_id = '$workId'");
       return $result;
     }
     function fetchWorkUserId($userId) {

@@ -23,9 +23,6 @@
 	if (isset($_POST['add_work'])) {
 		$department = $_POST["department"];
 		$workToBeDone = $_POST["work_to_be_done"];
-		$quantity = $_POST["qty"];
-		$unitCost = $_POST["unit_cost"];
-		$laborNeeded = $_POST["labor_needed"];
 
 		if (empty($department)) {
       array_push($errors, "Department should not be empty!"); // Mag push og error kung empty ang username
@@ -33,20 +30,12 @@
 		if (empty($workToBeDone)) {
       array_push($errors, "Work To Be Done should not be empty!"); // Mag push og error kung empty ang username
     }
-		if (empty($quantity)) {
-      array_push($errors, "Quantity should not be empty!"); // Mag push og error kung empty ang username
-    }
-		if (empty($unitCost)) {
-      array_push($errors, "Unit Cost should not be empty!"); // Mag push og error kung empty ang username
-    }
-		if (empty($laborNeeded)) {
-      array_push($errors, "Labor Needed should not be empty!"); // Mag push og error kung empty ang username
-    }
 		else {
-			$addWork = $functions->addWork($userId, $department, $workToBeDone, $quantity, $unitCost, $laborNeeded);
-
-			if ($addWork) {
-				array_push($errorSuccess, "Work added successfully!");
+			if (!empty($department) && !empty($workToBeDone)) {
+				$addWork = $functions->addWork($userId, $department, $workToBeDone);
+				if ($addWork) {
+					array_push($errorSuccess, "Work added successfully!");
+				}
 			}
 		}
 	}
@@ -157,20 +146,6 @@
 											<input type="text" name="work_to_be_done" id="workToBeDone" class="form-control mt-1" placeholder="Work To Be Done">
 											<label for="workToBeDone">Work To Be Done</label>
 										</div>
-										<div class="d-flex">
-											<div class="form-floating me-1 w-50">
-												<input type="number" name="qty" id="qty" class="form-control mt-1" placeholder="Quantity">
-												<label for="qty">Quantity</label>
-											</div>
-											<div class="form-floating w-50">
-												<input type="number" name="unit_cost" id="unitCost" class="form-control mt-1" placeholder="Unit Cost">
-												<label for="unitCost">Unit Cost</label>
-											</div>
-										</div>
-										<div class="form-floating mt-1">
-											<input type="text" name="labor_needed" id="laborNeeded" class="form-control mt-1" placeholder="Labor Needed">
-											<label for="laborNeeded">Labor Needed</label>
-										</div>
 										<button type="submit" class="mt-1 btn btn-primary w-100" name="add_work">Add Work</button>
 									</div>
 								</div>
@@ -188,10 +163,6 @@
 												<thead>
 													<th>ID</th>
 													<th>Work</th>
-													<th>Quantity</th>
-													<th>Unit Cost</th>
-													<th>Total Cost</th>
-													<th>Labor Needed</th>
 													<th>Action</th>
 												</thead>
 												<tbody>
@@ -203,16 +174,14 @@
 													<tr>
 														<td><?= $cnt ?></td>
 														<td><?= $row['work_to_be_done'] ?></td>
-														<td><?= $row['quantity'] ?></td>
-														<td><?= $row['unit_cost'] ?></td>
-														<td><?= $row['quantity'] * $row['unit_cost'] ?></td>
-														<td><?= $row['labor_needed'] ?></td>
-														<td>asdsad</td>
+														<td>
+															<a href="delete-work.php?work_id=<?= $row['work_id'] ?>" class="btn btn-danger btn-sm w-100">Delete</a>
+														</td>
 													</tr>
 													
 													<?php 
 															$cnt=$cnt+1; 
-															$totalCost = $row['total_cost'];
+															$workToBeDone = $row['work_to_be_done'];
 															$department = $row['department'];
 														} 
 													?>
@@ -220,22 +189,11 @@
 											</div>
 										</table>
 									</div>
-									<div class="card-footer">
-										<h5 class="m-0">Total: 
-											<?php 
-												if (isset($totalCost)) {
-													echo $totalCost;
-												} else {
-													echo '0';
-												}
-											?>
-										</h5>
-									</div>
 									<input type="hidden" name="department" value="<?= $department ?>">
 									<input type="hidden" name="requested_date" id="requestedDate">
 								</div>
 								<?php 
-									if (empty($totalCost)) {
+									if (empty($workToBeDone)) {
 										echo "<button class='btn btn-primary mt-1 w-100' disabled>Submit</button>";
 									} else {
 										echo "<button type='submit' class='btn btn-primary mt-1 w-100' name='submit_work'>Submit</button>";
