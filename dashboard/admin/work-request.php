@@ -82,9 +82,14 @@
 								<thead class="text-center">
 									<tr>
 										<th>ID</th>
-										<th>Requested By</th>
 										<th>Department</th>
 										<th>Requested Date</th>
+										<th>Requested By</th>
+										<th>Work To Be Done</th>
+										<th>Quantity</th>
+										<th>Unit Cost</th>
+										<th>Total Cost</th>
+										<th>Labor Needed</th>
 										<th>Completion Date</th>
 										<th>Status</th>
 										<th>Action</th>
@@ -98,15 +103,24 @@
 									?>
 									<tr>
 										<td><?= $cnt ?></td>
-										<td><?= $row['requested_by'] ?></td>
 										<td><?= $row['department'] ?></td>
 										<td><?= $row['requested_date'] ?></td>
+										<td><?= $row['requested_by'] ?></td>
+										<td><?= $row['work_to_be_done'] ?></td>
+										<td><?= $row['quantity'] ?></td>
+										<td><?= $row['unit_cost'] ?></td>
+										<td><?= $row['total_cost'] ?></td>
+										<td><?= $row['labor_needed'] ?></td>
 										<td><?= $row['completion_date'] ?></td>
 										<td><?= $row['status'] ?></td>
 										<td>
-											<a href="<?= $row['destination'] ?>" class="btn btn-info btn-sm w-100 mb-1">View</a> <br>
-											<a href="work-order.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Approve</a> <br>
+											<!-- Pending -->
+											<?php if ($row['status'] == 'Pending') { ?>
+												<a href="work-request.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Approve</a> <br>
+											<?php	} ?>
+											<!-- Approved -->
 											<?php if ($row['status'] == 'Approved') { ?>
+												<a href="update-work-request.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Approve</a> <br>
 												<a href="download.php?request_id=<?= $row['request_id'] ?>" class="btn btn-secondary btn-sm w-100">Download</a>
 											<?php	} ?>
 										</td>

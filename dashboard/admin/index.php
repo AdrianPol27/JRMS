@@ -31,8 +31,8 @@
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="work-order.php">
-									Work Order
+								<a class="nav-link" href="work-request.php">
+									Work Request
 								</a>
 							</li>
 						</ul>

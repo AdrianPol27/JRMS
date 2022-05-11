@@ -86,6 +86,12 @@
 										<th>ID</th>
 										<th>Department</th>
 										<th>Requested Date</th>
+										<th>Requested By</th>
+										<th>Work To Be Done</th>
+										<th>Quantity</th>
+										<th>Unit Cost</th>
+										<th>Total Cost</th>
+										<th>Labor Needed</th>
 										<th>Completion Date</th>
 										<th>Status</th>
 										<th>Action</th>
@@ -102,6 +108,12 @@
 										<td><?= $cnt ?></td>
 										<td><?= $row['department'] ?></td>
 										<td><?= $row['requested_date'] ?></td>
+										<td><?= $row['requested_by'] ?></td>
+										<td><?= $row['work_to_be_done'] ?></td>
+										<td><?= $row['quantity'] ?></td>
+										<td><?= $row['unit_cost'] ?></td>
+										<td><?= $row['total_cost'] ?></td>
+										<td><?= $row['labor_needed'] ?></td>
 										<td><?= $row['completion_date'] ?></td>
 										<td><?= $row['status'] ?></td>
 										<td>

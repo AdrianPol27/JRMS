@@ -68,29 +68,8 @@
 
 
 
-    function addWork($userId, $department, $workToBeDone) {
-      $result = mysqli_query($this->dbh, "INSERT INTO works_tbl (user_id, department, work_to_be_done) VALUES ('$userId', '$department', '$workToBeDone')");
-      return $result;
-    }
-    function removeWork($userId) {
-      $result = mysqli_query($this->dbh, "DELETE FROM works_tbl WHERE user_id = '$userId'");
-      return $result;
-    }
-    function deleteWork($workId) {
-      $result = mysqli_query($this->dbh, "DELETE FROM works_tbl WHERE work_id = '$workId'");
-      return $result;
-    }
-    function fetchWorkUserId($userId) {
-      $result = mysqli_query($this->dbh, "SELECT * FROM works_tbl WHERE user_id = '$userId'");
-      return $result;
-    }
-    function fetchWorkInfo($userId) {
-      $result = mysqli_query($this->dbh, "SELECT CONCAT(work_to_be_done, ',', quantity, ',', unit_cost) AS works, total_cost FROM works_tbl WHERE user_id = '$userId'");
-      return $result;
-    }
-    function submitRequest($userId, $allWork, $firstName, $lastName, $department, $requestedDate) {
-      $requestedBy = $firstName . ' ' . $lastName;
-      $result = mysqli_query($this->dbh, "INSERT INTO requests_tbl (user_id, all_work, requested_by, department, requested_date, status) VALUES ('$userId', '$allWork', '$requestedBy', '$department', '$requestedDate', 'Pending')");
+    function addRequest($userId, $department, $requestedBy, $workToBeDone, $requestedDate) {
+      $result = mysqli_query($this->dbh, "INSERT INTO requests_tbl (user_id, department, requested_by, work_to_be_done, labor_needed, requested_date, status) VALUES ('$userId', '$department', '$requestedBy', '$workToBeDone', 'TBA', '$requestedDate', 'Pending')");
       return $result;
     }
     function fetchRequestUserId($userId) {
