@@ -22,7 +22,9 @@
 	// Add work
 	if (isset($_POST['add_work'])) {
 		$department = $_POST["department"];
+		$requestedBy = $firstName . ' ' . $lastName;
 		$workToBeDone = $_POST["work_to_be_done"];
+		$requestedDate = $_POST["requested_date"];
 
 		if (empty($department)) {
       array_push($errors, "Department should not be empty!"); // Mag push og error kung empty ang username
@@ -32,7 +34,7 @@
     }
 		else {
 			if (!empty($department) && !empty($workToBeDone)) {
-				$addWork = $functions->addWork($userId, $department, $workToBeDone);
+				$addWork = $functions->addRequest($userId, $department, $requestedBy, $workToBeDone, $requestedDate);
 				if ($addWork) {
 					array_push($errorSuccess, "Work added successfully!");
 				}
@@ -40,34 +42,7 @@
 		}
 	}
 
-	// Submit Work
-	if (isset($_POST['submit_work'])) {
-		$department = $_POST["department"];
-		$requestedDate = $_POST["requested_date"];
-		$work = []; // Create items as an array
-		$allWork = ''; // Set default value for all work
-		$totalCost = '0'; 
-
-		// CONCAT ORDER INFO
-		$fetchWorkInfo = $functions->fetchWorkInfo($userId);
-		while ($row = $fetchWorkInfo->fetch_assoc()) {
-			$totalCost += $row['total_cost'];
-			$work[] = $row['works'];
-		}
-		$allWork = implode(', ', $work);
-
-		$submitRequest = $functions->submitRequest($userId, $allWork, $firstName, $lastName, $department, $requestedDate);
-		if ($submitRequest) {
-			array_push($errorSuccess, "Request submitted successfully!");
-			$removeWork = $functions->removeWork($userId);
-			header("Location: work-request.php");
-		}
-		
-	}
 	
- 
-      
-
 	
 ?>
 <!doctype html>
@@ -146,59 +121,10 @@
 											<input type="text" name="work_to_be_done" id="workToBeDone" class="form-control mt-1" placeholder="Work To Be Done">
 											<label for="workToBeDone">Work To Be Done</label>
 										</div>
+										<input type="hidden" id="requestedDate" name="requested_date">
 										<button type="submit" class="mt-1 btn btn-primary w-100" name="add_work">Add Work</button>
 									</div>
 								</div>
-							</form>
-						</div>
-						<div class="col-lg-7">
-							<form action="add-new-request.php" method="post">
-								<div class="card">
-									<div class="card-header">
-										<h6 class="m-0">Work To Be Done</h6>
-									</div>
-									<div class="card-body">
-										<table class="table">
-											<div class="table-responsive">
-												<thead>
-													<th>ID</th>
-													<th>Work</th>
-													<th>Action</th>
-												</thead>
-												<tbody>
-													<?php
-														$cnt = 1;
-														$fetchWorkUserId = $functions->fetchWorkUserId($userId);
-														while($row = mysqli_fetch_array($fetchWorkUserId)) {
-													?>
-													<tr>
-														<td><?= $cnt ?></td>
-														<td><?= $row['work_to_be_done'] ?></td>
-														<td>
-															<a href="delete-work.php?work_id=<?= $row['work_id'] ?>" class="btn btn-danger btn-sm w-100">Delete</a>
-														</td>
-													</tr>
-													
-													<?php 
-															$cnt=$cnt+1; 
-															$workToBeDone = $row['work_to_be_done'];
-															$department = $row['department'];
-														} 
-													?>
-												</tbody>
-											</div>
-										</table>
-									</div>
-									<input type="hidden" name="department" value="<?= $department ?>">
-									<input type="hidden" name="requested_date" id="requestedDate">
-								</div>
-								<?php 
-									if (empty($workToBeDone)) {
-										echo "<button class='btn btn-primary mt-1 w-100' disabled>Submit</button>";
-									} else {
-										echo "<button type='submit' class='btn btn-primary mt-1 w-100' name='submit_work'>Submit</button>";
-									}
-								?>
 							</form>
 						</div>
 					</div>
@@ -217,7 +143,6 @@
 		// Display Current Date
 		let today = new Date().toISOString().substr(0, 10);
 		document.querySelector("#requestedDate").value = today; // Requested date
-		document.querySelector("#requestedCompletion").value = today; // Requested completion
 
 	});
 
