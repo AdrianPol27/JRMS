@@ -37,26 +37,20 @@
 
 
 
-    // function requestForm($requisitionerId, $workOrderNum, $location, $space, $desc, $priority, $requestor, $requestedOn, $requestedCompletion) {
-    //   $result = mysqli_query($this->dbh, "INSERT INTO request_form (requisitioner_id, work_order_num, location, space, description, priority, requestor, requested_on, requested_completion) VALUES ('$requisitionerId', '$workOrderNum', '$location', '$space', '$desc', '$priority', '$requestor', '$requestedOn', '$requestedCompletion')");
-    //   return $result;
-    // }
-    
     function fetchRequestForm() {
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl");
       return $result;
     }
 
-    function requestForm($fileDestination, $requestedBy, $department, $requestedDate, $completionDate) {
-      $result = mysqli_query($this->dbh, "INSERT INTO request_form_tbl (destination, requested_by, department, requested_date, completion_date, status) VALUES ('$fileDestination', '$requestedBy', '$department', '$requestedDate', '$completionDate', 'Pending')");
+    function approvedRequest($requestId) {
+      $result = mysqli_query($this->dbh, "UPDATE requests_tbl SET status = 'Approved' WHERE request_id = '$requestId'");
       return $result;
     }
 
-    function onProcessRequest($requestId) {
-      $result = mysqli_query($this->dbh, "UPDATE requests_tbl SET status = 'On-Process' WHERE request_id = '$requestId'");
+    function updateRequest($requestId, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate) {
+      $result = mysqli_query($this->dbh, "UPDATE requests_tbl SET quantity = '$quantity', unit_cost = '$unitCost', total_cost = '$totalCost', labor_needed = '$laborNeeded', completion_date = '$completionDate', status = 'Done' WHERE request_id = '$requestId'");
       return $result;
     }
-
 
 
 
@@ -69,7 +63,7 @@
 
 
     function addRequest($userId, $department, $requestedBy, $workToBeDone, $requestedDate) {
-      $result = mysqli_query($this->dbh, "INSERT INTO requests_tbl (user_id, department, requested_by, work_to_be_done, labor_needed, requested_date, status) VALUES ('$userId', '$department', '$requestedBy', '$workToBeDone', 'TBA', '$requestedDate', 'Pending')");
+      $result = mysqli_query($this->dbh, "INSERT INTO requests_tbl (user_id, department, requested_by, work_to_be_done, labor_needed, requested_date, status) VALUES ('$userId', '$department', '$requestedBy', '$workToBeDone', 'TBA', '$requestedDate', 'On-Process')");
       return $result;
     }
     function fetchRequestUserId($userId) {

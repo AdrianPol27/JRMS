@@ -21,6 +21,10 @@
     } elseif (mysqli_num_rows($signIn) === 1) {
       if ($username == $row['username'] && $password == $row['password']) {
         if ($row['privilege_level'] == 1) {
+          $_SESSION['user_id'] = $row['id'];
+          $_SESSION['first_name'] = $row['first_name'];
+          $_SESSION['middle_name'] = $row['middle_name'];
+          $_SESSION['last_name'] = $row['last_name'];
           header('Location: ./dashboard/admin/index.php');
         } else {
           $_SESSION['user_id'] = $row['id'];
@@ -35,35 +39,6 @@
     } else {
       array_push($errors, "No account yet!");
     } 
-
-
-
-      // if ($signIn -> num_rows > 0) { // kung ang username og password wala sa table 
-      //   while ($account = $signIn -> fetch_assoc()) {
-      //     if ($account['username'] == $username && $account['password'] == $password) {
-
-      //       // Redirect kung admin
-      //       if ($account['privilege_level'] == '1') {
-      //         header('Location: ./dashboard/admin/index.php');
-      //       }
-
-      //       // Redirect kung user
-      //       if ($account['privilege_level'] == '2') {
-      //         $_SESSION['email'] = $row['email'];
-      //         $_SESSION['first_name'] = $account['first_name'];
-      //         header('Location: ./dashboard/user/index.php');
-      //       }
-      //     }
-      //   }
-      // } else {
-      //   array_push($errors, "No account found!"); // Mag push og error kung walay account makita
-      // }
-
-
-
-
-
-  
   }
 
 ?>

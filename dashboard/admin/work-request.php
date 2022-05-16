@@ -2,177 +2,475 @@
 
 	session_start();
 
-  include_once("../.././functions.php"); // Include functions.php
-  $functions = new Functions(); // Create function object
-	$errors = array();
+    include_once("../.././functions.php"); // Include functions.php
+    $functions = new Functions(); // Create function object
 
-	if (isset($_GET['request_id'])) {
+    if (isset($_SESSION['user_id'])) {
+        $userId = $_SESSION['user_id'];
+    }
+    if (isset($_SESSION['first_name'])) {
+        $firstName = $_SESSION['first_name'];
+    }
+	if (isset($_SESSION['middle_name'])) {
+        $middleName = $_SESSION['middle_name'];
+    }
+    if (isset($_SESSION['last_name'])) {
+        $lastName = $_SESSION['last_name'];
+    }
+
+    if (isset($_GET['request_id'])) {
 		$requestId = $_GET['request_id'];
-
-		$approveRequest = $functions->onProcessRequest($requestId);
-		if ($approveRequest) {
-			array_push($errorSuccess, "Request Has Been Approved!");
-		}
-
+		$approvedRequest = $functions->approvedRequest($requestId);
 	}
 
+    if (isset($_POST['update_work'])) {
+
+    }
+	
 ?>
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-    <?php include ('../.././includes/header.php') ?>
-    <title>Dashboard</title>
-	</head>
-  <body>
-    
-		<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-			<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">JRMS</a>
-			<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-			<div class="navbar-nav">
-				<div class="nav-item text-nowrap">
-					<a class="nav-link px-3" href="../.././logout.php">Sign out</a>
-				</div>
-			</div>
-		</header>
 
-		<div class="container-fluid">
-			<div class="row">
-				<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-					<div class="position-sticky pt-3">
-						<ul class="nav flex-column">
-							<li class="nav-item">
-								<a class="nav-link" aria-current="page" href="index.php">
-									Dashboard
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link active" href="work-order.php">
-									Work Order
-								</a>
-							</li>
-						</ul>
+<head>
 
-						<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-							<span>Account</span>
-						</h6>
-						
-						<ul class="nav flex-column mb-2">
-							<li class="nav-item">
-								<a class="nav-link" href="#">
-									<span data-feather="file-text"></span>
-									Current month
-								</a>
-							</li>
-						</ul>
-					</div>
-				</nav>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-				<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-						<h1 class="h2">Work Order</h1>
-					</div>
+    <title>SB Admin 2 - Dashboard</title>
 
-					<?php include('../.././errors.php'); ?>  
-					<div class="col-12">
-						<div class="table-responsive">
-							<table id="work-order-table" class="table table-bordered display nowrap w-100">
-								<thead class="text-center">
-									<tr>
-										<th>ID</th>
-										<th>Department</th>
-										<th>Requested Date</th>
-										<th>Requested By</th>
-										<th>Work To Be Done</th>
-										<th>Quantity</th>
-										<th>Unit Cost</th>
-										<th>Total Cost</th>
-										<th>Labor Needed</th>
-										<th>Completion Date</th>
-										<th>Status</th>
-										<th>Action</th>
-									</tr>
-								</thead>
-								<tbody class="text-center">
-									<?php
-										$cnt = 1;
-										$fetchRequestForm = $functions->fetchRequestForm();
-										while($row = mysqli_fetch_array($fetchRequestForm)) {
-									?>
-									<tr>
-										<td><?= $cnt ?></td>
-										<td><?= $row['department'] ?></td>
-										<td><?= $row['requested_date'] ?></td>
-										<td><?= $row['requested_by'] ?></td>
-										<td><?= $row['work_to_be_done'] ?></td>
-										<td><?= $row['quantity'] ?></td>
-										<td><?= $row['unit_cost'] ?></td>
-										<td><?= $row['total_cost'] ?></td>
-										<td><?= $row['labor_needed'] ?></td>
-										<td><?= $row['completion_date'] ?></td>
-										<td><?= $row['status'] ?></td>
-										<td>
-											<!-- Pending -->
-											<?php if ($row['status'] == 'Pending') { ?>
-												<a href="work-request.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Approve</a> <br>
-											<?php	} ?>
-											<!-- Approved -->
-											<?php if ($row['status'] == 'Approved') { ?>
-												<a href="update-work-request.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1" data-bs-toggle="modal" data-bs-target="#updateModal">Update</a>
-											<?php	} ?>
-										</td>
-									</tr>
-									<?php $cnt=$cnt+1;} ?>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</main>
-			</div>
-		</div>
+    <!-- Custom fonts for this template-->
+    <link href="../.././vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-		<!-- Modal -->
-		<div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<form action="">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Update Work Request</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-							<div class="form-floating mb-1">
-								<input type="number" name="quantity" id="quantity" class="form-control" placeholder="Quantity">
-								<label for="quantity">Quantity</label>
-							</div>
-							<div class="form-floating mb-1">
-								<input type="number" name="unit_cost" id="untiCost" class="form-control" placeholder="Unit Cost">
-								<label for="unitCost">Unit Cost</label>
-							</div>
-							<div class="form-floating mb-1">
-								<input type="text" name="labor_needed" id="laborNeeded" class="form-control" placeholder="Labor Needed">
-								<label for="laborNeeded">Labor Needed</label>
-							</div>
-							<div class="form-floating">
-								<input type="date" name="completion_date" id="completionDate" class="form-control" placeholder="Completion Date">
-								<label for="completionDate">Completion Date</label>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary">Done</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</body>
+    <!-- Custom styles for this template-->
+    <link href="../.././css/sb-admin-2.min.css" rel="stylesheet">
+		
+    <!-- Custom styles for this page -->
+    <link href="../.././vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">JRMS</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="index.php">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Work Request</span>
+                </a>
+                
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="work-request.php">Manage Request</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Account
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Search -->
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $firstName . ' ' . $lastName?></span>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Manage Request</h1>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <button class="btn btn-lg w-100" id="onProcess">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    On-Process</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                               
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <button class="btn btn-lg w-100" id="approved">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Approved</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </button>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="progress progress-sm mr-2">
+                                                        <div class="progress-bar bg-info" role="progressbar"
+                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                                            aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Pending Requests</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Content Row -->
+
+				    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Department</th>
+                                            <th>Requested Date</th>
+                                            <th>Requested By</th>
+                                            <th>Work To Be Done</th>
+                                            <th>Quantity</th>
+                                            <th>Unit Cost</th>
+                                            <th>Total Cost</th>
+                                            <th>Labor Needed</th>
+                                            <th>Completion Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                            $cnt = 1;
+                                            $fetchRequestForm = $functions->fetchRequestForm();
+                                            while($row = mysqli_fetch_array($fetchRequestForm)) {
+                                        ?>
+                                        <tr>
+                                            <td><?= $row['department'] ?></td>
+                                            <td><?= $row['requested_date'] ?></td>
+                                            <td><?= $row['requested_by'] ?></td>
+                                            <td><?= $row['work_to_be_done'] ?></td>
+                                            <td><?= $row['quantity'] ?></td>
+                                            <td><?= $row['unit_cost'] ?></td>
+                                            <td><?= $row['total_cost'] ?></td>
+                                            <td><?= $row['labor_needed'] ?></td>
+                                            <td><?= $row['completion_date'] ?></td>
+                                            <td><?= $row['status'] ?></td>
+                                            <td>
+                                                <!-- Pending -->
+                                                <?php if ($row['status'] == 'On-Process') { ?>
+                                                    <a href="work-request.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Approve</a> <br>
+                                                <?php	} ?>
+                                                <!-- Approved -->
+                                                <?php if ($row['status'] == 'Approved') { ?>
+                                                    <a href="update-request.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Update</a>
+                                                <?php	} ?>
+                                                <!-- Done -->
+                                                <?php if ($row['status'] == 'Done') { ?>
+                                                    <a href="download.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Download</a>
+                                                <?php	} ?>
+                                            </td>
+                                        </tr>
+										<?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update Work Request</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="" method="post">
+                    <div class="modal-body">
+                        <div class="form-floating mb-1">
+                            <input type="number" name="quantity" id="quantity" class="form-control" placeholder="Quantity">
+                        </div>
+                        <div class="form-floating mb-1">
+                            <input type="number" name="unit_cost" id="untiCost" class="form-control" placeholder="Unit Cost">
+                        </div>
+                        <div class="form-floating mb-1">
+                            <input type="text" name="labor_needed" id="laborNeeded" class="form-control" placeholder="Labor Needed">
+                        </div>
+                        <div class="form-floating">
+                            <input type="date" name="completion_date" id="completionDate" class="form-control" placeholder="Completion Date">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button  class="btn btn-primary" type="submit">Done</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="../.././logout.php">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="../.././vendor/jquery/jquery.min.js"></script>
+    <script src="../.././vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../.././vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../.././js/sb-admin-2.min.js"></script>
+		
+    <!-- Page level plugins -->
+    <script src="../.././vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../.././vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="../.././js/demo/datatables-demo.js"></script>
+
+    <script>
+        var dataTable = $('#dataTable').DataTable({});
+
+        $("#onProcess").click(function(e){
+            dataTable.search("On-Process").draw();
+        });
+        $("#approved").click(function(e){
+            dataTable.search("Approved").draw();
+        });
+
+    </script>
+
+</body>
+
 </html>
-
-<script>
-	$(document).ready( function () {
-    $('#work-order-table').DataTable();
-} );
-</script>
