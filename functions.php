@@ -52,8 +52,8 @@
       return $result;
     }
 
-    function approveRequest($requestId) {
-      $result = mysqli_query($this->dbh, "UPDATE requests_tbl SET status = 'Approved' WHERE request_id = '$requestId'");
+    function onProcessRequest($requestId) {
+      $result = mysqli_query($this->dbh, "UPDATE requests_tbl SET status = 'On-Process' WHERE request_id = '$requestId'");
       return $result;
     }
 

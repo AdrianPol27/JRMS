@@ -9,7 +9,7 @@
 	if (isset($_GET['request_id'])) {
 		$requestId = $_GET['request_id'];
 
-		$approveRequest = $functions->approveRequest($requestId);
+		$approveRequest = $functions->onProcessRequest($requestId);
 		if ($approveRequest) {
 			array_push($errorSuccess, "Request Has Been Approved!");
 		}
@@ -120,8 +120,7 @@
 											<?php	} ?>
 											<!-- Approved -->
 											<?php if ($row['status'] == 'Approved') { ?>
-												<a href="update-work-request.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Approve</a> <br>
-												<a href="download.php?request_id=<?= $row['request_id'] ?>" class="btn btn-secondary btn-sm w-100">Download</a>
+												<a href="update-work-request.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1" data-bs-toggle="modal" data-bs-target="#updateModal">Update</a>
 											<?php	} ?>
 										</td>
 									</tr>
@@ -131,6 +130,42 @@
 						</div>
 					</div>
 				</main>
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<form action="">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Update Work Request</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div class="form-floating mb-1">
+								<input type="number" name="quantity" id="quantity" class="form-control" placeholder="Quantity">
+								<label for="quantity">Quantity</label>
+							</div>
+							<div class="form-floating mb-1">
+								<input type="number" name="unit_cost" id="untiCost" class="form-control" placeholder="Unit Cost">
+								<label for="unitCost">Unit Cost</label>
+							</div>
+							<div class="form-floating mb-1">
+								<input type="text" name="labor_needed" id="laborNeeded" class="form-control" placeholder="Labor Needed">
+								<label for="laborNeeded">Labor Needed</label>
+							</div>
+							<div class="form-floating">
+								<input type="date" name="completion_date" id="completionDate" class="form-control" placeholder="Completion Date">
+								<label for="completionDate">Completion Date</label>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-primary">Done</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 	</body>
