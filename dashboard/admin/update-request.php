@@ -34,7 +34,7 @@
 
 		$updateRequest = $functions->updateRequest($requestId, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate);
 		if ($updateRequest) {
-			header("Location: work-request.php");
+			header("Location: index.php");
 		}
 	}
 	
