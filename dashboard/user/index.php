@@ -1,14 +1,23 @@
 <?php
 
-    session_start();
+	session_start();
 
+    include_once("../.././functions.php"); // Include functions.php
+    $functions = new Functions(); // Create function object
+
+    if (isset($_SESSION['user_id'])) {
+        $userId = $_SESSION['user_id'];
+    }
     if (isset($_SESSION['first_name'])) {
         $firstName = $_SESSION['first_name'];
+    }
+	if (isset($_SESSION['middle_name'])) {
+        $middleName = $_SESSION['middle_name'];
     }
     if (isset($_SESSION['last_name'])) {
         $lastName = $_SESSION['last_name'];
     }
-
+	
 ?>
 
 <!DOCTYPE html>
@@ -26,12 +35,13 @@
 
     <!-- Custom fonts for this template-->
     <link href="../.././vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="../.././css/sb-admin-2.min.css" rel="stylesheet">
+		
+    <!-- Custom styles for this page -->
+    <link href="../.././vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -70,7 +80,6 @@
                 
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="work-request.php">Manage Request</a>
                         <a class="collapse-item" href="add-new-request.php">Add New Request</a>
                     </div>
                 </div>
@@ -78,6 +87,11 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Account
+            </div>
 
         </ul>
         <!-- End of Sidebar -->
@@ -181,6 +195,142 @@
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                     </div>
 
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <button class="btn btn-lg w-100" id="Pending">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Pending</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                    <?php
+                                                        $fetchRequestPendingByUserId = $functions->fetchRequestPendingByUserId($userId);
+                                                        $rowcount = mysqli_num_rows($fetchRequestPendingByUserId);
+                                                        printf($rowcount);
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <button class="btn btn-lg w-100" id="onProcess">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    On-Process</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                    <?php
+                                                        $fetchRequestOnProcessByUserId = $functions->fetchRequestOnProcessByUserId($userId);
+                                                        $rowcount = mysqli_num_rows($fetchRequestOnProcessByUserId);
+                                                        printf($rowcount);
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <button class="btn btn-lg w-100" id="done">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                    Done
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                    <?php
+                                                        $fetchRequestDoneByUserId = $functions->fetchRequestDoneByUserId($userId);
+                                                        $rowcount = mysqli_num_rows($fetchRequestDoneByUserId);
+                                                        printf($rowcount);
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+
+                    </div>
+                    <!-- Content Row -->
+
+				    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Requested Date</th>
+                                            <th>Requested By</th>
+                                            <th>Work To Be Done</th>
+                                            <th>Completion Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                            $cnt = 1;
+                                            $fetchRequestUserId = $functions->fetchRequestUserId($userId);
+                                            while($row = mysqli_fetch_array($fetchRequestUserId)) {
+                                        ?>
+                                        <tr>
+                                            <td><?= $row['requested_date'] ?></td>
+                                            <td><?= $row['requested_by'] ?></td>
+                                            <td><?= $row['work_to_be_done'] ?></td>
+                                            <td><?= $row['completion_date'] ?></td>
+                                            <td><?= $row['status'] ?></td>
+                                            <td>
+                                                <?php
+                                                    if ($row['status'] == 'Approved') { ?>
+                                                    <button class="btn btn-danger w-100" disabled>Cancel</button>
+                                                <?php	} else { ?>
+                                                    <form action="cancel-request.php" method="post">
+                                                        <input type="hidden" name="request_id" value="<?= $row['request_id'] ?>">
+                                                        <input type="hidden" name="file" value="<?= $row['destination'] ?>">
+                                                    
+                                                        <button type="submit" class="btn btn-danger w-100" name="cancel_btn">Cancel</button>
+                                                    </form>
+                                                <?php } ?>
+                                            </td>
+                                        </tr>
+										<?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <!-- /.container-fluid -->
 
@@ -237,6 +387,27 @@
 
     <!-- Custom scripts for all pages-->
     <script src="../.././js/sb-admin-2.min.js"></script>
+		
+    <!-- Page level plugins -->
+    <script src="../.././vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../.././vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="../.././js/demo/datatables-demo.js"></script>
+
+    <script>
+        var dataTable = $('#dataTable').DataTable({});
+
+        $("#Pending").click(function(e){
+            dataTable.search("Pending").draw();
+        });
+        $("#onProcess").click(function(e){
+            dataTable.search("On-Process").draw();
+        });
+        $("#done").click(function(e){
+            dataTable.search("Done").draw();
+        });
+    </script>
 
 </body>
 

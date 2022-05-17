@@ -21,11 +21,15 @@
 
 	// Add work
 	if (isset($_POST['add_work'])) {
+		$college = $_POST["college"];
 		$department = $_POST["department"];
 		$requestedBy = $firstName . ' ' . $lastName;
 		$workToBeDone = $_POST["work_to_be_done"];
 		$requestedDate = $_POST["requested_date"];
 
+		if ($college == 'None') {
+			array_push($errors, "College should not be empty!");
+		}
 		if (empty($department)) {
       array_push($errors, "Department should not be empty!"); // Mag push og error kung empty ang username
     }
@@ -34,9 +38,9 @@
     }
 		else {
 			if (!empty($department) && !empty($workToBeDone)) {
-				$addWork = $functions->addRequest($userId, $department, $requestedBy, $workToBeDone, $requestedDate);
+				$addWork = $functions->addRequest($userId, $college, $department, $requestedBy, $workToBeDone, $requestedDate);
 				if ($addWork) {
-					header("Location: work-request.php");
+					header("Location: index.php");
 				}
 			}
 		}
@@ -104,7 +108,6 @@
 							
 							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 									<div class="bg-white py-2 collapse-inner rounded">
-											<a class="collapse-item" href="work-request.php">Manage Request</a>
 											<a class="collapse-item" href="add-new-request.php">Add New Request</a>
 									</div>
 							</div>
@@ -227,12 +230,21 @@
 												<h6 class="m-0">Nature of Work</h6>
 											</div>
 											<div class="card-body">
-											<div class="form-floating">
-												<input type="text" name="department" id="department" class="form-control" placeholder="Department">
-											</div>
-												<div class="form-floating">
-													<input type="text" name="work_to_be_done" id="workToBeDone" class="form-control mt-1" placeholder="Work To Be Done">
-												</div>
+												<select name="college" class="form-control mb-1">
+													<option value="None">Select College</option>
+													<option value="COA">College of Agriculture</option>
+													<option value="CAS">College of Arts and Sciences</option>
+													<option value="CBM">College of Business and Management</option>
+													<option value="COED">College of Education</option>
+													<option value="COE">College of Engineering</option>
+													<option value="CFES">College of Forestry and Environmental Science</option>
+													<option value="CHE">College of Human Ecology</option>
+													<option value="CISC">College of Information Sciences and Computing</option>
+													<option value="CON">College of Nursing</option>
+													<option value="CVM">College of Veterinary Medicine</option>
+												</select>
+												<input type="text" name="department" id="department" class="form-control mb-1" placeholder="Department">
+												<textarea name="work_to_be_done" class="form-control w-100" placeholder="Work To Be Done" style="height: 100px; resize: none"></textarea>
 												<input type="hidden" id="requestedDate" name="requested_date">
 												<button type="submit" class="mt-1 btn btn-primary w-100" name="add_work">Add Work</button>
 											</div>

@@ -8,7 +8,7 @@
   $cancelRequest = $functions->cancelRequest($requestId);
 
   if ($cancelRequest) {
-    header("Location: work-request.php");
+    header("Location: index.php");
   }
 
 ?>

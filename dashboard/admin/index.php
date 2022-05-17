@@ -1,14 +1,28 @@
 <?php
 
-    session_start();
+	session_start();
 
+    include_once("../.././functions.php"); // Include functions.php
+    $functions = new Functions(); // Create function object
+
+    if (isset($_SESSION['user_id'])) {
+        $userId = $_SESSION['user_id'];
+    }
     if (isset($_SESSION['first_name'])) {
         $firstName = $_SESSION['first_name'];
+    }
+	if (isset($_SESSION['middle_name'])) {
+        $middleName = $_SESSION['middle_name'];
     }
     if (isset($_SESSION['last_name'])) {
         $lastName = $_SESSION['last_name'];
     }
 
+    if (isset($_GET['request_id'])) {
+		$requestId = $_GET['request_id'];
+		$onProcessRequest = $functions->onProcessRequest($requestId);
+	}
+	
 ?>
 
 <!DOCTYPE html>
@@ -26,12 +40,13 @@
 
     <!-- Custom fonts for this template-->
     <link href="../.././vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="../.././css/sb-admin-2.min.css" rel="stylesheet">
+		
+    <!-- Custom styles for this page -->
+    <link href="../.././vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -61,22 +76,6 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Work Request</span>
-                </a>
-                
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="work-request.php">Manage Request</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
 
         </ul>
         <!-- End of Sidebar -->
@@ -177,7 +176,156 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Manage Request</h1>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <button class="btn btn-lg w-100" id="pending">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Pending
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                    <?php
+                                                        $fetchRequestPending = $functions->fetchRequestPending($userId);
+                                                        $rowcount = mysqli_num_rows($fetchRequestPending);
+                                                        printf($rowcount);
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <button class="btn btn-lg w-100" id="onProcess">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    On-Process
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                    <?php
+                                                        $fetchRequestOnProcess = $functions->fetchRequestOnProcess($userId);
+                                                        $rowcount = mysqli_num_rows($fetchRequestOnProcess);
+                                                        printf($rowcount);
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <button class="btn btn-lg w-100" id="done">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                    Done
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                    <?php
+                                                        $fetchRequestDone = $functions->fetchRequestDone($userId);
+                                                        $rowcount = mysqli_num_rows($fetchRequestDone);
+                                                        printf($rowcount);
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+
+                    </div>
+                    <!-- Content Row -->
+
+				    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Department</th>
+                                            <th>Requested Date</th>
+                                            <th>Requested By</th>
+                                            <th>Work To Be Done</th>
+                                            <th>Quantity</th>
+                                            <th>Unit Cost</th>
+                                            <th>Total Cost</th>
+                                            <th>Labor Needed</th>
+                                            <th>Completion Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                            $cnt = 1;
+                                            $fetchRequestForm = $functions->fetchRequestForm();
+                                            while($row = mysqli_fetch_array($fetchRequestForm)) {
+                                        ?>
+                                        <tr>
+                                            <td><?= $row['department'] ?></td>
+                                            <td><?= $row['requested_date'] ?></td>
+                                            <td><?= $row['requested_by'] ?></td>
+                                            <td><?= $row['work_to_be_done'] ?></td>
+                                            <td><?= $row['quantity'] ?></td>
+                                            <td><?= $row['unit_cost'] ?></td>
+                                            <td><?= $row['total_cost'] ?></td>
+                                            <td><?= $row['labor_needed'] ?></td>
+                                            <td><?= $row['completion_date'] ?></td>
+                                            <td><?= $row['status'] ?></td>
+                                            <td>
+                                                <!-- Pending -->
+                                                <?php if ($row['status'] == 'Pending') { ?>
+                                                    <a href="index.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Process</a> <br>
+                                                <?php } ?>
+                                                <!-- Approved -->
+                                                <?php if ($row['status'] == 'On-Process') { ?>
+                                                    <a href="update-request.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Update</a>
+                                                <?php } ?>
+                                                <!-- Done -->
+                                                <?php if ($row['status'] == 'Done') { ?>
+                                                    <a href="download.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Download</a>
+                                                <?php } ?>
+                                            </td>
+                                        </tr>
+										<?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -208,6 +356,41 @@
     </a>
 
     <!-- Logout Modal-->
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update Work Request</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="" method="post">
+                    <div class="modal-body">
+                        <div class="form-floating mb-1">
+                            <input type="number" name="quantity" id="quantity" class="form-control" placeholder="Quantity">
+                        </div>
+                        <div class="form-floating mb-1">
+                            <input type="number" name="unit_cost" id="untiCost" class="form-control" placeholder="Unit Cost">
+                        </div>
+                        <div class="form-floating mb-1">
+                            <input type="text" name="labor_needed" id="laborNeeded" class="form-control" placeholder="Labor Needed">
+                        </div>
+                        <div class="form-floating">
+                            <input type="date" name="completion_date" id="completionDate" class="form-control" placeholder="Completion Date">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button  class="btn btn-primary" type="submit">Done</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -236,6 +419,27 @@
 
     <!-- Custom scripts for all pages-->
     <script src="../.././js/sb-admin-2.min.js"></script>
+		
+    <!-- Page level plugins -->
+    <script src="../.././vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../.././vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="../.././js/demo/datatables-demo.js"></script>
+
+    <script>
+        var dataTable = $('#dataTable').DataTable({});
+
+        $("#pending").click(function(e){
+            dataTable.search("Pending").draw();
+        });
+        $("#onProcess").click(function(e){
+            dataTable.search("On-Process").draw();
+        });
+        $("#done").click(function(e){
+            dataTable.search("Done").draw();
+        });
+    </script>
 
 </body>
 
