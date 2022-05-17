@@ -34,6 +34,10 @@
       $result = mysqli_query($this->dbh, "DELETE FROM requests_tbl WHERE request_id = '$requestId'");
       return $result;
     }
+    function cancelRequestAdmin($requestId) {
+      $result = mysqli_query($this->dbh, "UPDATE requests_tbl SET status = 'Cancelled' WHERE request_id = '$requestId'");
+      return $result;
+    }
 
 
 
@@ -66,6 +70,10 @@
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE status = 'Done' AND user_id = '$userId'");
       return $result;
     }
+    function fetchRequestCancelledByUserId($userId) {
+      $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE status = 'Cancelled' AND user_id = '$userId'");
+      return $result;
+    }
 
     function fetchRequestPending($userId) {
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE status = 'Pending'");
@@ -79,6 +87,10 @@
 
     function fetchRequestDone($userId) {
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE status = 'Done'");
+      return $result;
+    }
+    function fetchRequestCancelled($userId) {
+      $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE status = 'Cancelled'");
       return $result;
     }
 
@@ -101,6 +113,14 @@
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE request_id = '$requestId'");
       return $result;
     }
+
+
+
+    function addFeedback($fullname, $feedback) {
+      $result = mysqli_query($this->dbh, "INSERT INTO feedback_tbl (fullname, feedback) VALUES ('$fullname', '$feedback')");
+      return $result;
+    }
+
   }
 
 ?>

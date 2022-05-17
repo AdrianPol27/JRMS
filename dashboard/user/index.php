@@ -277,6 +277,33 @@
                             </button>
                         </div>
 
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <button class="btn btn-lg w-100" id="cancelled">
+                                <div class="card border-left-danger shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                    Cancelled
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                    <?php
+                                                        $fetchRequestCancelledByUserId = $functions->fetchRequestCancelledByUserId($userId);
+                                                        $rowcount = mysqli_num_rows($fetchRequestCancelledByUserId);
+                                                        printf($rowcount);
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+
                     </div>
                     <!-- Content Row -->
 
@@ -292,6 +319,8 @@
                                         <tr>
                                             <th>Requested Date</th>
                                             <th>Requested By</th>
+                                            <th>College</th>
+                                            <th>Department</th>
                                             <th>Work To Be Done</th>
                                             <th>Completion Date</th>
                                             <th>Status</th>
@@ -307,14 +336,41 @@
                                         <tr>
                                             <td><?= $row['requested_date'] ?></td>
                                             <td><?= $row['requested_by'] ?></td>
+                                            <td><?= $row['college'] ?></td>
+                                            <td><?= $row['department'] ?></td>
                                             <td><?= $row['work_to_be_done'] ?></td>
                                             <td><?= $row['completion_date'] ?></td>
-                                            <td><?= $row['status'] ?></td>
                                             <td>
+                                                <?php
+                                                    if ($row['status'] == 'Cancelled') {
+                                                        echo '<p class="text-danger">Cancelled</p>';
+                                                    } else {
+                                                        echo $row['status'];
+                                                    }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                    if ($row['status'] == 'Cancelled') { ?>
+                                                     <form action="cancel-request.php" method="post">
+                                                        <input type="hidden" name="request_id" value="<?= $row['request_id'] ?>">
+                                                        <input type="hidden" name="file" value="<?= $row['destination'] ?>">
+                                                    
+                                                        <button type="submit" class="btn btn-danger w-100" name="cancel_btn">Cancel</button>
+                                                    </form>
+                                                <?php } ?>
                                                 <?php
                                                     if ($row['status'] == 'Approved') { ?>
                                                     <button class="btn btn-danger w-100" disabled>Cancel</button>
-                                                <?php	} else { ?>
+                                                <?php } ?>
+                                                <?php
+                                                    if ($row['status'] == 'On-Process') { ?>
+                                                    <button class="btn btn-danger w-100" disabled="disabled">Cancel</button>
+                                                <?php } ?>
+                                                <?php
+                                                    if ($row['status'] == 'Done') { ?>
+                                                    <a href="feedback.php" class="btn btn-info w-100">Feedback</a>
+                                                <?php } if ($row['status'] == 'Pending') { ?>
                                                     <form action="cancel-request.php" method="post">
                                                         <input type="hidden" name="request_id" value="<?= $row['request_id'] ?>">
                                                         <input type="hidden" name="file" value="<?= $row['destination'] ?>">
@@ -406,6 +462,9 @@
         });
         $("#done").click(function(e){
             dataTable.search("Done").draw();
+        });
+        $("#cancelled").click(function(e){
+            dataTable.search("Cancelled").draw();
         });
     </script>
 
