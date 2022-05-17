@@ -20,25 +20,17 @@
   }
 
 	// Add work
-	if (isset($_POST['add_work'])) {
-		$college = $_POST["college"];
-		$department = $_POST["department"];
-		$requestedBy = $firstName . ' ' . $lastName;
-		$workToBeDone = $_POST["work_to_be_done"];
-		$requestedDate = $_POST["requested_date"];
+	if (isset($_POST['add_feedback'])) {
+		$fullname = $_POST["fullname"];
+		$feedback = $_POST["feedback"];
 
-		if (empty($department)) {
-      array_push($errors, "Department should not be empty!"); // Mag push og error kung empty ang username
-    }
-		if (empty($workToBeDone)) {
-      array_push($errors, "Work To Be Done should not be empty!"); // Mag push og error kung empty ang username
-    }
+		if (empty($feedback)) {
+      array_push($errors, "Feedback should not be empty!");
+    } 
 		else {
-			if (!empty($department) && !empty($workToBeDone)) {
-				$addWork = $functions->addRequest($userId, $college, $department, $requestedBy, $workToBeDone, $requestedDate);
-				if ($addWork) {
-					header("Location: index.php");
-				}
+			$addFeedback = $functions->addFeedback($fullname, $feedback);
+			if ($addFeedback) {
+				header("Location: index.php");
 			}
 		}
 	}
@@ -217,35 +209,21 @@
 
 								<!-- Page Heading -->
 								<div class="d-sm-flex align-items-center justify-content-between mb-4">
-									<h1 class="h3 mb-0 text-gray-800">Add New Request</h1>
+									<h1 class="h3 mb-0 text-gray-800">Add Feedback</h1>
 								</div>
 
 								<?php include('../.././errors.php') ?>
 
 								<div class="col-lg-6">
-									<form action="add-new-request.php" method="post">
+									<form action="feedback.php" method="post">
 										<div class="card mt-2">
 											<div class="card-header">
-												<h6 class="m-0">Nature of Work</h6>
+												<h6 class="m-0">Feedback</h6>
 											</div>
 											<div class="card-body">
-												<select name="college" class="form-control mb-1">
-													<option value="None">Select College</option>
-													<option value="COA">College of Agriculture</option>
-													<option value="CAS">College of Arts and Sciences</option>
-													<option value="CBM">College of Business and Management</option>
-													<option value="COED">College of Education</option>
-													<option value="COE">College of Engineering</option>
-													<option value="CFES">College of Forestry and Environmental Science</option>
-													<option value="CHE">College of Human Ecology</option>
-													<option value="CISC">College of Information Sciences and Computing</option>
-													<option value="CON">College of Nursing</option>
-													<option value="CVM">College of Veterinary Medicine</option>
-												</select>
-												<input type="text" name="department" id="department" class="form-control mb-1" placeholder="Department">
-												<textarea name="work_to_be_done" class="form-control w-100" placeholder="Work To Be Done" style="height: 100px; resize: none"></textarea>
-												<input type="hidden" id="requestedDate" name="requested_date">
-												<button type="submit" class="mt-1 btn btn-primary w-100" name="add_work">Add Work</button>
+												<input type="hidden" name="fullname" value="<?= $firstName . ' ' . $lastName?>">
+												<textarea name="feedback" class="form-control w-100" placeholder="Tell us your feedback..." style="height: 100px; resize: none"></textarea>
+												<button type="submit" class="mt-1 btn btn-primary w-100" name="add_feedback">Add Feedback</button>
 											</div>
 										</div>
 									</form>

@@ -76,6 +76,12 @@
                     <span>Dashboard</span>
                 </a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="feedback.php">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Feedback</span>
+                </a>
+            </li>
 
         </ul>
         <!-- End of Sidebar -->
@@ -291,9 +297,10 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $cnt = 1;
                                             $fetchRequestForm = $functions->fetchRequestForm();
                                             while($row = mysqli_fetch_array($fetchRequestForm)) {
+
+                                            $cancelledRequestId = $row['request_id']; 
                                         ?>
                                         <tr>
                                             <td><?= $row['department'] ?></td>
@@ -305,11 +312,24 @@
                                             <td><?= $row['total_cost'] ?></td>
                                             <td><?= $row['labor_needed'] ?></td>
                                             <td><?= $row['completion_date'] ?></td>
-                                            <td><?= $row['status'] ?></td>
                                             <td>
+                                                <?php
+                                                    if ($row['status'] == 'Cancelled') {
+                                                        echo '<p class="text-danger">Cancelled</p>';
+                                                    } else {
+                                                        echo $row['status'];
+                                                    }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                    if ($row['status'] == 'Cancelled') { ?>
+                                                    <button class="btn btn-danger w-100" disabled>Cancel</button>
+                                                <?php } ?>
                                                 <!-- Pending -->
                                                 <?php if ($row['status'] == 'Pending') { ?>
                                                     <a href="index.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Process</a> <br>
+                                                    <a href="#" class="btn btn-danger btn-sm w-100 mb-1" data-toggle="modal" data-target="#cancelledModal">Cancel</a>
                                                 <?php } ?>
                                                 <!-- Approved -->
                                                 <?php if ($row['status'] == 'On-Process') { ?>
@@ -354,6 +374,30 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
+    <!-- Cancelled Modal-->
+    <div class="modal fade" id="cancelledModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cancel Request</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="" method="post">
+                    <div class="modal-body">
+                        <p class="m-0">Are you sure you want to cancel the request?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a href="cancel-request.php?request_id=<?= $cancelledRequestId ?>"  class="btn btn-danger">Yes</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

@@ -32,9 +32,25 @@
 		$completionDate = $_POST['completion_date'];
 		$requestId = $_POST['request_id'];
 
-		$updateRequest = $functions->updateRequest($requestId, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate);
-		if ($updateRequest) {
-			header("Location: index.php");
+		if (empty($quantity)) {
+      array_push($errors, "Quantity should not be empty!");
+    }
+		if (empty($unitCost)) {
+      array_push($errors, "Unit Cost should not be empty!");
+    }
+		if (empty($totalCost)) {
+      array_push($errors, "Total Cost should not be empty!");
+    }
+		if (empty($laborNeeded)) {
+      array_push($errors, "Labor Needed should not be empty!");
+    }
+		if (empty($completionDate)) {
+      array_push($errors, "Completion Date should not be empty!");
+    } else {
+			$updateRequest = $functions->updateRequest($requestId, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate);
+			if ($updateRequest) {
+				header("Location: index.php");
+			}
 		}
 	}
 	
