@@ -54,7 +54,7 @@
     $pdf->Cell(48,10,$department,1,0);
     $pdf->SetFillColor(192,192,192);
     $pdf->Cell(47,10,"Completion Date",1,0,'R',true);
-    $pdf->Cell(48,10,$completionDate,1,0);
+    $pdf->Cell(48,10,'',1,0);
 
     $pdf->SetFont('Times','B',11.5);
     $pdf->Text(10, 93, 'RECOMMENDING APPROVAL:');
