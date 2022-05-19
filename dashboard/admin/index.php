@@ -352,6 +352,7 @@
                                                 <!-- Approved -->
                                                 <?php if ($row['status'] == 'On-Process') { ?>
                                                     <a href="update-request.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Update</a>
+                                                    <a href="download.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Download</a>
                                                 <?php } ?>
                                                 <!-- Done -->
                                                 <?php if ($row['status'] == 'Done') { ?>
