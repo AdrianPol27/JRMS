@@ -6,6 +6,9 @@
   $functions = new Functions(); // Create function object
 	$errors = array();
 
+	$requestId = $_GET['request_id'];
+
+
 	if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
   }
@@ -21,6 +24,7 @@
 
 	// Add work
 	if (isset($_POST['add_feedback'])) {
+		$requestId = $_POST["request_id"];
 		$fullname = $_POST["fullname"];
 		$feedback = $_POST["feedback"];
 
@@ -28,7 +32,7 @@
       array_push($errors, "Feedback should not be empty!");
     } 
 		else {
-			$addFeedback = $functions->addFeedback($fullname, $feedback);
+			$addFeedback = $functions->addFeedback($requestId, $fullname, $feedback);
 			if ($addFeedback) {
 				header("Location: index.php");
 			}
@@ -221,6 +225,7 @@
 												<h6 class="m-0">Feedback</h6>
 											</div>
 											<div class="card-body">
+												<input type="hidden" name="request_id" value="<?= $requestId ?>">
 												<input type="hidden" name="fullname" value="<?= $firstName . ' ' . $lastName?>">
 												<textarea name="feedback" class="form-control w-100" placeholder="Tell us your feedback..." style="height: 100px; resize: none"></textarea>
 												<button type="submit" class="mt-1 btn btn-primary w-100" name="add_feedback">Add Feedback</button>

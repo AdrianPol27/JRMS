@@ -21,13 +21,13 @@
     } elseif (mysqli_num_rows($signIn) === 1) {
       if ($username == $row['username'] && $password == $row['password']) {
         if ($row['privilege_level'] == 1) {
-          $_SESSION['user_id'] = $row['id'];
+          $_SESSION['user_id'] = $row['user_id'];
           $_SESSION['first_name'] = $row['first_name'];
           $_SESSION['middle_name'] = $row['middle_name'];
           $_SESSION['last_name'] = $row['last_name'];
           header('Location: ./dashboard/admin/index.php');
         } else {
-          $_SESSION['user_id'] = $row['id'];
+          $_SESSION['user_id'] = $row['user_id'];
           $_SESSION['first_name'] = $row['first_name'];
           $_SESSION['middle_name'] = $row['middle_name'];
           $_SESSION['last_name'] = $row['last_name'];
@@ -77,6 +77,7 @@
         <label for="password">Password</label>
       </div>
       <button class="w-100 btn btn-lg btn-success" type="submit" name="login_btn">Sign in</button>
+      <p>Don't have an account? <a href="register.php">Register Now!</a></p>
     </form>
   </main>
 </body>

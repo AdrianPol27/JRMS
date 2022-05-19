@@ -369,7 +369,7 @@
                                                 <?php } ?>
                                                 <?php
                                                     if ($row['status'] == 'Done') { ?>
-                                                    <a href="feedback.php" class="btn btn-info w-100">Feedback</a>
+                                                    <a href="feedback.php?request_id=<?= $row['request_id'] ?>" class="btn btn-info w-100">Feedback</a>
                                                 <?php } if ($row['status'] == 'Pending') { ?>
                                                     <form action="cancel-request.php" method="post">
                                                         <input type="hidden" name="request_id" value="<?= $row['request_id'] ?>">
