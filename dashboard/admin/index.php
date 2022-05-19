@@ -289,6 +289,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>College</th>
                                             <th>Department</th>
                                             <th>Requested Date</th>
                                             <th>Month</th>
@@ -311,6 +312,7 @@
                                             $cancelledRequestId = $row['request_id']; 
                                         ?>
                                         <tr>
+                                            <td><?= $row['college'] ?></td>
                                             <td><?= $row['department'] ?></td>
                                             <td><?= $row['requested_date'] ?></td>
                                             <td><?= $row['requested_month'] ?></td>
@@ -343,11 +345,14 @@
                                                 <!-- Approved -->
                                                 <?php if ($row['status'] == 'On-Process') { ?>
                                                     <a href="update-request.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Update</a>
-                                                    <a href="download.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Download</a>
+                                                    <a href="download.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1" id="download" target="blank">Download</a>
+                                                    <script>
+                                                        document.getElementById("download").click();
+                                                    </script>
                                                 <?php } ?>
                                                 <!-- Done -->
                                                 <?php if ($row['status'] == 'Done') { ?>
-                                                    <a href="download.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Download</a>
+                                                    <p class="m-0 text-success">Done</p>
                                                 <?php } ?>
                                             </td>
                                         </tr>

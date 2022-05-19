@@ -128,7 +128,7 @@
     }
 
     function fetchFeedbacks() {
-      $result = mysqli_query($this->dbh, "SELECT * FROM feedbacks_tbl");
+      $result = mysqli_query($this->dbh, "SELECT * FROM feedbacks_tbl ORDER BY requested_date DESC");
       return $result;
     }
     
