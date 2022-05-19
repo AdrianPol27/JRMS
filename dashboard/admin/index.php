@@ -76,7 +76,7 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="feedback.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Feedback</span>
@@ -275,7 +275,23 @@
 				    <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            <div class="d-flex justify-content-between">
+
+                                <!-- <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#generateModal">Generate Data</a> -->
+
+                                <button class="btn btn-primary btn-sm" id="Januray">January</button>
+                                <button class="btn btn-primary btn-sm" id="February">February</button>
+                                <button class="btn btn-primary btn-sm" id="March">March</button>
+                                <button class="btn btn-primary btn-sm" id="April">April</button>
+                                <button class="btn btn-primary btn-sm" id="May">May</button>
+                                <button class="btn btn-primary btn-sm" id="June">June</button>
+                                <button class="btn btn-primary btn-sm" id="July">July</button>
+                                <button class="btn btn-primary btn-sm" id="August">August</button>
+                                <button class="btn btn-primary btn-sm" id="September">September</button>
+                                <button class="btn btn-primary btn-sm" id="October">October</button>
+                                <button class="btn btn-primary btn-sm" id="November">November</button>
+                                <button class="btn btn-primary btn-sm" id="December">December</button>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -284,6 +300,7 @@
                                         <tr>
                                             <th>Department</th>
                                             <th>Requested Date</th>
+                                            <th>Month</th>
                                             <th>Requested By</th>
                                             <th>Work To Be Done</th>
                                             <th>Quantity</th>
@@ -305,6 +322,7 @@
                                         <tr>
                                             <td><?= $row['department'] ?></td>
                                             <td><?= $row['requested_date'] ?></td>
+                                            <td><?= $row['requested_month'] ?></td>
                                             <td><?= $row['requested_by'] ?></td>
                                             <td><?= $row['work_to_be_done'] ?></td>
                                             <td><?= $row['quantity'] ?></td>
@@ -434,6 +452,42 @@
         </div>
     </div>
 
+    <div class="modal fade" id="generateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Generate Data</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="generate.php" method="post">
+                    <div class="modal-body">On which month do you want to generate?
+                        <select name="month" id="" class="form-control">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>                
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Generate</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -482,6 +536,44 @@
         });
         $("#done").click(function(e){
             dataTable.search("Done").draw();
+        });
+
+        // Monthly List
+        $("#January").click(function(e){
+            dataTable.search("January").draw();
+        });
+        $("#February").click(function(e){
+            dataTable.search("February").draw();
+        });
+        $("#March").click(function(e){
+            dataTable.search("March").draw();
+        });
+        $("#April").click(function(e){
+            dataTable.search("April").draw();
+        });
+        $("#May").click(function(e){
+            dataTable.search("May").draw();
+        });
+        $("#June").click(function(e){
+            dataTable.search("June").draw();
+        });
+        $("#July").click(function(e){
+            dataTable.search("July").draw();
+        });
+        $("#August").click(function(e){
+            dataTable.search("August").draw();
+        });
+        $("#September").click(function(e){
+            dataTable.search("September").draw();
+        });
+        $("#October").click(function(e){
+            dataTable.search("October").draw();
+        });
+        $("#November").click(function(e){
+            dataTable.search("November").draw();
+        });
+        $("#December").click(function(e){
+            dataTable.search("December").draw();
         });
     </script>
 

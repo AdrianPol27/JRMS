@@ -21,15 +21,12 @@
 
 	// Add work
 	if (isset($_POST['add_work'])) {
-		
 		$college = $_POST["college"];
 		$department = $_POST["department"];
 		$requestedBy = $firstName . ' ' . $lastName;
 		$workToBeDone = $_POST["work_to_be_done"];
 		$requestedDate = $_POST["requested_date"];
 
-		$month = date("F",strtotime($requestedDate));
-		
 		if (empty($department)) {
       array_push($errors, "Department should not be empty!"); // Mag push og error kung empty ang username
     }
@@ -38,7 +35,7 @@
     }
 		else {
 			if (!empty($department) && !empty($workToBeDone)) {
-				$addWork = $functions->addRequest($userId, $college, $department, $requestedBy, $workToBeDone, $requestedDate, $month);
+				$addWork = $functions->addRequest($userId, $college, $department, $requestedBy, $workToBeDone, $requestedDate);
 				if ($addWork) {
 					header("Location: index.php");
 				}
@@ -99,27 +96,12 @@
 									<span>Dashboard</span>
 							</a>
 					</li>
-					<li class="nav-item">
-							<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-									aria-expanded="true" aria-controls="collapseTwo">
-									<i class="fas fa-fw fa-table"></i>
-									<span>Work Request</span>
-							</a>
-							
-							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-									<div class="bg-white py-2 collapse-inner rounded">
-											<a class="collapse-item" href="add-new-request.php">Add New Request</a>
-									</div>
-							</div>
-					</li>
-
-					<!-- Divider -->
-					<hr class="sidebar-divider">
-
-					<!-- Heading -->
-					<div class="sidebar-heading">
-							Account
-					</div>
+					<li class="nav-item active">
+                <a class="nav-link" href="feedback.php">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Feedback</span>
+                </a>
+            </li>
 
 			</ul>
 			<!-- End of Sidebar -->
@@ -220,39 +202,29 @@
 
 								<!-- Page Heading -->
 								<div class="d-sm-flex align-items-center justify-content-between mb-4">
-									<h1 class="h3 mb-0 text-gray-800">Add New Request</h1>
+									<h1 class="h3 mb-0 text-gray-800">Feedbacks</h1>
 								</div>
 
-								<?php include('../.././errors.php') ?>
-
-								<div class="col-lg-6">
-									<form action="add-new-request.php" method="post">
-										<div class="card mt-2">
-											<div class="card-header">
-												<h6 class="m-0">Nature of Work</h6>
-											</div>
-											<div class="card-body">
-												<select name="college" class="form-control mb-1">
-													<option value="None">Select College</option>
-													<option value="COA">College of Agriculture</option>
-													<option value="CAS">College of Arts and Sciences</option>
-													<option value="CBM">College of Business and Management</option>
-													<option value="COED">College of Education</option>
-													<option value="COE">College of Engineering</option>
-													<option value="CFES">College of Forestry and Environmental Science</option>
-													<option value="CHE">College of Human Ecology</option>
-													<option value="CISC">College of Information Sciences and Computing</option>
-													<option value="CON">College of Nursing</option>
-													<option value="CVM">College of Veterinary Medicine</option>
-												</select>
-												<input type="text" name="department" id="department" class="form-control mb-1" placeholder="Department">
-												<textarea name="work_to_be_done" class="form-control w-100" placeholder="Work To Be Done" style="height: 100px; resize: none"></textarea>
-												<input type="hidden" id="requestedDate" name="requested_date">
-												<button type="submit" class="mt-1 btn btn-primary w-100" name="add_work">Add Work</button>
+						
+								<div class="row">
+									<?php
+											$fetchFeedbacks = $functions->fetchFeedbacks();
+											while($row = mysqli_fetch_array($fetchFeedbacks)) {
+									?>
+										<div class="col-lg-4">
+											<div class="card">
+												<div class="card-header">
+													<p class="plain m-0"><?= $row['fullname'] ?></p>
+												</div>
+												<div class="card-body">
+													<p class="m-0"><?= $row['feedback'] ?></p>
+												</div>
 											</div>
 										</div>
-									</form>
+									<?php } ?>
 								</div>
+
+							
 
 							</div>
 							<!-- /.container-fluid -->

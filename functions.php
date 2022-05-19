@@ -19,13 +19,16 @@
         echo "Failed to connect to MySQL: " . mysqli_connect_error();
       }
       $_SESSION['conn'] = $conn;
-    }
+    } 
 
-    function signIn($username, $password) {
-      $result = mysqli_query($this->dbh, "SELECT * FROM users WHERE username = '$username' AND password = '$password'");
+    function signIn($email, $password) {
+      $result = mysqli_query($this->dbh, "SELECT * FROM users_tbl WHERE email = '$email' AND password = '$password'");
       return $result;
     }
-
+    function register($privilegeLevel, $firstname, $middlename, $lastname, $email, $password) {
+      $result = mysqli_query($this->dbh, "INSERT INTO users_tbl (privilege_level, first_name, middle_name, last_name, email, password) VALUES ('$privilegeLevel','$firstname','$middlename','$lastname','$email','$password')");
+      return $result;
+    }
     function fetchRequestFormUserId($requestedBy) {
       $result = mysqli_query($this->dbh, "SELECT * FROM request_form_tbl WHERE requested_by = '$requestedBy'");
       return $result;
@@ -74,6 +77,10 @@
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE status = 'Cancelled' AND user_id = '$userId'");
       return $result;
     }
+    function fetchRequestByMonth($month) {
+      $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE requested_month = '$month'");
+      return $result;
+    }
 
     function fetchRequestPending($userId) {
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE status = 'Pending'");
@@ -100,9 +107,8 @@
 
 
 
-
-    function addRequest($userId, $college, $department, $requestedBy, $workToBeDone, $requestedDate) {
-      $result = mysqli_query($this->dbh, "INSERT INTO requests_tbl (user_id, college, department, requested_by, work_to_be_done, labor_needed, requested_date, status) VALUES ('$userId', '$college', '$department', '$requestedBy', '$workToBeDone', 'TBA', '$requestedDate', 'Pending')");
+    function addRequest($userId, $college, $department, $requestedBy, $workToBeDone, $requestedDate, $month) {
+      $result = mysqli_query($this->dbh, "INSERT INTO requests_tbl (user_id, college, department, requested_by, work_to_be_done, labor_needed, requested_date, requested_month, status) VALUES ('$userId', '$college', '$department', '$requestedBy', '$workToBeDone', '0', '$requestedDate', '$month', 'Pending')");
       return $result;
     }
     function fetchRequestUserId($userId) {
@@ -116,8 +122,13 @@
 
 
 
-    function addFeedback($fullname, $feedback) {
-      $result = mysqli_query($this->dbh, "INSERT INTO feedback_tbl (fullname, feedback) VALUES ('$fullname', '$feedback')");
+    function addFeedback($requestId, $fullname, $feedback) {
+      $result = mysqli_query($this->dbh, "INSERT INTO feedbacks_tbl (request_id, fullname, feedback) VALUES ('$requestId', '$fullname', '$feedback')");
+      return $result;
+    }
+
+    function fetchFeedbacks() {
+      $result = mysqli_query($this->dbh, "SELECT * FROM feedbacks_tbl");
       return $result;
     }
 
