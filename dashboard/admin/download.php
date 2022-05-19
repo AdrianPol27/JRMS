@@ -76,7 +76,7 @@
     $pdf->Cell(30,10,"UNIT COST",1,0,'C',true);
     $pdf->Cell(30,10,"TOTAL COST",1,0,'C',true);
     $pdf->Cell(40,10,"LABOR NEEDED",1,1,'C',true);
-    $pdf->Cell(70,60,"",1,0,'C');
+    $pdf->Cell(70,60,$workToBeDone ,1,0,'C');
     $pdf->Cell(20,60,"",1,0,'C');
     $pdf->Cell(30,60,"",1,0,'C');
     $pdf->Cell(30,73,"",1,0,'C');

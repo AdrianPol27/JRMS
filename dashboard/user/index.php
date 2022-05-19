@@ -215,9 +215,6 @@
                                                     ?>
                                                 </div>
                                             </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -240,9 +237,6 @@
                                                         printf($rowcount);
                                                     ?>
                                                 </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -268,9 +262,6 @@
                                                     ?>
                                                 </div>
                                             </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -294,9 +285,6 @@
                                                         printf($rowcount);
                                                     ?>
                                                 </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -369,7 +357,15 @@
                                                 <?php } ?>
                                                 <?php
                                                     if ($row['status'] == 'Done') { ?>
-                                                    <a href="feedback.php?request_id=<?= $row['request_id'] ?>" class="btn btn-info w-100">Feedback</a>
+                                                    <?php 
+                                                        $requestId = $row['request_id'];
+                                                        $fetchFeedbackByRequestId = $functions->fetchFeedbackByRequestId($requestId);
+                                                        if (mysqli_num_rows($fetchFeedbackByRequestId)) { ?>
+                                                            <button class="btn btn-info w-100" Disabled>Feedback</button>  
+                                                        <?php } else { ?>
+                                                            <a href="feedback.php?request_id=<?= $row['request_id'] ?>" class="btn btn-info w-100">Feedback</a>
+                                                    <?php } ?>
+                                                    
                                                 <?php } if ($row['status'] == 'Pending') { ?>
                                                     <form action="cancel-request.php" method="post">
                                                         <input type="hidden" name="request_id" value="<?= $row['request_id'] ?>">

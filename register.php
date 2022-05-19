@@ -53,15 +53,50 @@
     <title>Register Page</title>
 </head>
 <style>
-  html,
-  body {height: 100%;}
-  body {
-    display: flex;
-    align-items: center;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    background-color: #f5f5f5;
-  }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  -ms-flex-align: center;
+  -ms-flex-pack: center;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .checkbox {
+  font-weight: 400;
+}
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 </style>
 <body>
   <main class="form-signin">
@@ -87,15 +122,16 @@
         <input type="text" class="form-control" id="email" name="email" placeholder="Email">
         <label for="email">Email</label>
       </div>
-      <div class="form-floating">
+      <div class="form-floating mb-1">
         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
         <label for="password">Password</label>
       </div>
-      <div class="form-floating">
+      <div class="form-floating mb-3">
         <input type="password" class="form-control" id="confirmPassword" name="confirm_password" placeholder="Confirm Password">
         <label for="confirmPassword">Confirm Password</label>
       </div>
       <button class="w-100 btn btn-lg btn-success" type="submit" name="register_btn">Register</button>
+      <p class="text-center">Already had an account? <a href="index.php">Login Now!</a></p>
     </form>
   </main>
 </body>
