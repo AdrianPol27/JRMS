@@ -131,6 +131,11 @@
       $result = mysqli_query($this->dbh, "SELECT * FROM feedbacks_tbl");
       return $result;
     }
+    
+    function fetchFeedbackByRequestId($requestId) {
+      $result = mysqli_query($this->dbh, "SELECT * FROM feedbacks_tbl WHERE request_id = '$requestId'");
+      return $result;
+    }
 
   }
 
