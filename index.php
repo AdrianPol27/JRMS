@@ -7,19 +7,19 @@
   $errors = array();
 
   if (isset($_POST['login_btn'])) { // Kung ang login button tuplokon
-    $username = $_POST['username']; // Kuhaon ang username gikan sa form
+    $email = $_POST['email']; // Kuhaon ang username gikan sa form
     $password = $_POST['password']; // Kuhaon ang password gikan sa form
 
-    $signIn = $functions->signIn($username, $password); // i excecute ang function nga naa sa functions.php daw i select tanan ang username og password sulod sa users table
+    $signIn = $functions->signIn($email, $password); // i excecute ang function nga naa sa functions.php daw i select tanan ang username og password sulod sa users table
     $row = mysqli_fetch_assoc($signIn);
 
-    if (empty($username)) {
-      array_push($errors, "Username should not be empty!"); // Mag push og error kung empty ang username
+    if (empty($email)) {
+      array_push($errors, "Email should not be empty!"); // Mag push og error kung empty ang username
     }
     if (empty($password)) {
       array_push($errors, "Password should not be empty!"); // Mag push og error kung empty ang password
     } elseif (mysqli_num_rows($signIn) === 1) {
-      if ($username == $row['username'] && $password == $row['password']) {
+      if ($email == $row['email'] && $password == $row['password']) {
         if ($row['privilege_level'] == 1) {
           $_SESSION['user_id'] = $row['user_id'];
           $_SESSION['first_name'] = $row['first_name'];
@@ -69,8 +69,8 @@
       <h1 class="h3 my-4 fw-normal text-center">Please sign in</h1>
       <?php include('errors.php'); ?>  
       <div class="form-floating mb-1">
-        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
-        <label for="username">Username</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+        <label for="email">Email</label>
       </div>
       <div class="form-floating">
         <input type="password" class="form-control" id="password" name="password" placeholder="Password">

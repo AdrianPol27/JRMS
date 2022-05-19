@@ -11,7 +11,7 @@
     $firstname = $_POST['firstname'];
     $middlename = $_POST['middlename'];
     $lastname = $_POST['lastname'];
-    $username = $_POST['username']; // Kuhaon ang username gikan sa form
+    $email = $_POST['email']; // Kuhaon ang username gikan sa form
     $password = $_POST['password']; // Kuhaon ang password gikan sa form
     $confirmPassword = $_POST['confirm_password'];
 
@@ -25,8 +25,8 @@
     if (empty($lastname)) {
       array_push($errors, "Last name should not be empty!"); // Mag push og error kung empty ang username
     }
-    if (empty($username)) {
-      array_push($errors, "Username should not be empty!"); // Mag push og error kung empty ang username
+    if (empty($email)) {
+      array_push($errors, "Email should not be empty!"); // Mag push og error kung empty ang username
     }
     if (empty($password)) {
       array_push($errors, "Password should not be empty!"); // Mag push og error kung empty ang password
@@ -37,7 +37,7 @@
     if ($password != $confirmPassword) {
       array_push($errors, "Password does not match!"); // Mag push og error kung empty ang password
     } else {
-      $register = $functions->register($privilegeLevel, $firstname, $middlename, $lastname, $username, $password);
+      $register = $functions->register($privilegeLevel, $firstname, $middlename, $lastname, $email, $password);
       if ($register) {
         header('Location: index.php');
       }
@@ -84,8 +84,8 @@
         <label for="lastname">Last Name</label>
       </div>
       <div class="form-floating mb-1">
-        <input type="text" class="form-control" id="username" name="username" placeholder="User Name">
-        <label for="username">User Name</label>
+        <input type="text" class="form-control" id="email" name="email" placeholder="Email">
+        <label for="email">Email</label>
       </div>
       <div class="form-floating">
         <input type="password" class="form-control" id="password" name="password" placeholder="Password">

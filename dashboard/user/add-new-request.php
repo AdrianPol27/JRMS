@@ -21,13 +21,15 @@
 
 	// Add work
 	if (isset($_POST['add_work'])) {
+		
 		$college = $_POST["college"];
 		$department = $_POST["department"];
 		$requestedBy = $firstName . ' ' . $lastName;
 		$workToBeDone = $_POST["work_to_be_done"];
 		$requestedDate = $_POST["requested_date"];
-		$month = date('m');
 
+		$month = date("F",strtotime($requestedDate));
+		
 		if (empty($department)) {
       array_push($errors, "Department should not be empty!"); // Mag push og error kung empty ang username
     }

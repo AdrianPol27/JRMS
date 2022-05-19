@@ -21,12 +21,12 @@
       $_SESSION['conn'] = $conn;
     } 
 
-    function signIn($username, $password) {
-      $result = mysqli_query($this->dbh, "SELECT * FROM users_tbl WHERE username = '$username' AND password = '$password'");
+    function signIn($email, $password) {
+      $result = mysqli_query($this->dbh, "SELECT * FROM users_tbl WHERE email = '$email' AND password = '$password'");
       return $result;
     }
-    function register($privilegeLevel, $firstname, $middlename, $lastname, $username, $password) {
-      $result = mysqli_query($this->dbh, "INSERT INTO users_tbl (privilege_level, first_name, middle_name, last_name, username, password) VALUES ('$privilegeLevel','$firstname','$middlename','$lastname','$username','$password')");
+    function register($privilegeLevel, $firstname, $middlename, $lastname, $email, $password) {
+      $result = mysqli_query($this->dbh, "INSERT INTO users_tbl (privilege_level, first_name, middle_name, last_name, email, password) VALUES ('$privilegeLevel','$firstname','$middlename','$lastname','$email','$password')");
       return $result;
     }
     function fetchRequestFormUserId($requestedBy) {
@@ -108,7 +108,7 @@
 
 
     function addRequest($userId, $college, $department, $requestedBy, $workToBeDone, $requestedDate, $month) {
-      $result = mysqli_query($this->dbh, "INSERT INTO requests_tbl (user_id, college, department, requested_by, work_to_be_done, labor_needed, requested_date, requested_month, status) VALUES ('$userId', '$college', '$department', '$requestedBy', '$workToBeDone', 'TBA', '$requestedDate', $month, 'Pending')");
+      $result = mysqli_query($this->dbh, "INSERT INTO requests_tbl (user_id, college, department, requested_by, work_to_be_done, labor_needed, requested_date, requested_month, status) VALUES ('$userId', '$college', '$department', '$requestedBy', '$workToBeDone', '0', '$requestedDate', '$month', 'Pending')");
       return $result;
     }
     function fetchRequestUserId($userId) {
