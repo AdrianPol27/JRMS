@@ -42,10 +42,8 @@
       return $result;
     }
 
-
-
     function fetchRequestForm() {
-      $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl ORDER BY requested_date DESC");
+      $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl ORDER BY request_id ASC");
       return $result;
     }
 

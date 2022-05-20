@@ -182,7 +182,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Manage Request</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Admin Dashboard</h1>
                     </div>
 
                     <!-- Content Row -->
@@ -260,6 +260,30 @@
                             </button>
                         </div>
 
+                         <!-- Earnings (Monthly) Card Example -->
+                         <div class="col-xl-3 col-md-6 mb-4">
+                            <button class="btn btn-lg w-100" id="cancelled">
+                                <div class="card border-left-danger shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                    Cancelled
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                    <?php
+                                                        $fetchRequestCancelledByUserId = $functions->fetchRequestCancelledByUserId($userId);
+                                                        $rowcount = mysqli_num_rows($fetchRequestCancelledByUserId);
+                                                        printf($rowcount);
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+
                     </div>
                     <!-- Content Row -->
 
@@ -289,6 +313,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>Request Id</th>
                                             <th>College</th>
                                             <th>Department</th>
                                             <th>Requested Date</th>
@@ -312,6 +337,7 @@
                                             $cancelledRequestId = $row['request_id']; 
                                         ?>
                                         <tr>
+                                            <td><?= $row['request_id'] ?></td>
                                             <td><?= $row['college'] ?></td>
                                             <td><?= $row['department'] ?></td>
                                             <td><?= $row['requested_date'] ?></td>
@@ -533,6 +559,9 @@
         });
         $("#done").click(function(e){
             dataTable.search("Done").draw();
+        });
+        $("#cancelled").click(function(e){
+            dataTable.search("Cancelled").draw();
         });
 
         // Monthly List
