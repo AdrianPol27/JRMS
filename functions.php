@@ -45,7 +45,7 @@
 
 
     function fetchRequestForm() {
-      $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl");
+      $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl ORDER BY requested_date DESC");
       return $result;
     }
 
@@ -128,7 +128,7 @@
     }
 
     function fetchFeedbacks() {
-      $result = mysqli_query($this->dbh, "SELECT * FROM feedbacks_tbl ORDER BY requested_date DESC");
+      $result = mysqli_query($this->dbh, "SELECT * FROM feedbacks_tbl");
       return $result;
     }
     
