@@ -334,7 +334,7 @@
                                             $fetchRequestForm = $functions->fetchRequestForm();
                                             while($row = mysqli_fetch_array($fetchRequestForm)) {
 
-                                            $cancelledRequestId = $row['request_id']; 
+                                            $cancelledRequestId = $row['request_id'] - 1; 
                                         ?>
                                         <tr>
                                             <td><?= $row['request_id'] ?></td>
@@ -427,15 +427,17 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form action="" method="post">
                     <div class="modal-body">
                         <p class="m-0">Are you sure you want to cancel the request?</p>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a href="cancel-request.php?request_id=<?= $cancelledRequestId ?>"  class="btn btn-danger">Yes</a>
+                        <form action="cancel-request.php" method="post">
+                            <input type="hidden" name="request_id" value="<?= $cancelledRequestId ?>">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">Cancel</button>
+                        </form>
+                  
                     </div>
-                </form>
             </div>
         </div>
     </div>
