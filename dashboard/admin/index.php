@@ -333,8 +333,6 @@
                                         <?php
                                             $fetchRequestForm = $functions->fetchRequestForm();
                                             while($row = mysqli_fetch_array($fetchRequestForm)) {
-
-                                            $cancelledRequestId = $row['request_id'] - 1; 
                                         ?>
                                         <tr>
                                             <td><?= $row['request_id'] ?></td>
@@ -366,7 +364,7 @@
                                                 <!-- Pending -->
                                                 <?php if ($row['status'] == 'Pending') { ?>
                                                     <a href="index.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Process</a> <br>
-                                                    <a href="#" class="btn btn-danger btn-sm w-100 mb-1" data-toggle="modal" data-target="#cancelledModal">Cancel</a>
+                                                    <a href="cancel-request.php?request_id=<?= $row['request_id'] ?>" class="btn btn-danger btn-sm w-100 mb-1" onclick="myFunction()"> Cancel</a>
                                                 <?php } ?>
                                                 <!-- Approved -->
                                                 <?php if ($row['status'] == 'On-Process') { ?>
@@ -427,17 +425,16 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                    <div class="modal-body">
-                        <p class="m-0">Are you sure you want to cancel the request?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <form action="cancel-request.php" method="post">
-                            <input type="hidden" name="request_id" value="<?= $cancelledRequestId ?>">
-                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-danger">Cancel</button>
-                        </form>
-                  
-                    </div>
+                <div class="modal-body">
+                    <p class="m-0">Are you sure you want to cancel the request?</p>
+                </div>
+                <div class="modal-footer">
+                    <form action="cancel-request.php" method="post">
+                        <input type="hidden" name="request_id" value="<?= $row['request_id'] ?>">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Cancel</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -603,6 +600,10 @@
         $("#December").click(function(e){
             dataTable.search("December").draw();
         });
+        
+        function myFunction() {
+            alert("Work request has been deleted!");
+        }
     </script>
 
 </body>
