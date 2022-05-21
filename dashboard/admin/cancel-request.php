@@ -3,7 +3,7 @@
   include_once("../.././functions.php"); // Include functions.php
   $functions = new Functions(); // Create function object
 
-  $requestId = $_POST['request_id'];
+  $requestId = $_GET['request_id'];
 
   $cancelRequestAdmin = $functions->cancelRequestAdmin($requestId);
 
