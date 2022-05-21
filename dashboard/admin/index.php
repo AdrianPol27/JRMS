@@ -201,7 +201,7 @@
                                                 </div>
                                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                     <?php
-                                                        $fetchRequestPending = $functions->fetchRequestPending($userId);
+                                                        $fetchRequestPending = $functions->fetchRequestPending();
                                                         $rowcount = mysqli_num_rows($fetchRequestPending);
                                                         printf($rowcount);
                                                     ?>
@@ -225,7 +225,7 @@
                                                 </div>
                                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                     <?php
-                                                        $fetchRequestOnProcess = $functions->fetchRequestOnProcess($userId);
+                                                        $fetchRequestOnProcess = $functions->fetchRequestOnProcess();
                                                         $rowcount = mysqli_num_rows($fetchRequestOnProcess);
                                                         printf($rowcount);
                                                     ?>
@@ -249,7 +249,7 @@
                                                 </div>
                                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                     <?php
-                                                        $fetchRequestDone = $functions->fetchRequestDone($userId);
+                                                        $fetchRequestDone = $functions->fetchRequestDone();
                                                         $rowcount = mysqli_num_rows($fetchRequestDone);
                                                         printf($rowcount);
                                                     ?>
@@ -273,8 +273,8 @@
                                                 </div>
                                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                     <?php
-                                                        $fetchRequestCancelledByUserId = $functions->fetchRequestCancelledByUserId($userId);
-                                                        $rowcount = mysqli_num_rows($fetchRequestCancelledByUserId);
+                                                        $fetchRequestCancelled = $functions->fetchRequestCancelled();
+                                                        $rowcount = mysqli_num_rows($fetchRequestCancelled);
                                                         printf($rowcount);
                                                     ?>
                                                 </div>
@@ -381,6 +381,7 @@
                                                 <?php } ?>
                                             </td>
                                         </tr>
+                                        
 										<?php } ?>
                                     </tbody>
                                 </table>
@@ -415,30 +416,6 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Cancelled Modal-->
-    <div class="modal fade" id="cancelledModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Cancel Request</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p class="m-0">Are you sure you want to cancel the request?</p>
-                </div>
-                <div class="modal-footer">
-                    <form action="cancel-request.php" method="post">
-                        <input type="hidden" name="request_id" value="<?= $row['request_id'] ?>">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-danger">Cancel</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
