@@ -80,21 +80,21 @@
       return $result;
     }
 
-    function fetchRequestPending($userId) {
+    function fetchRequestPending() {
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE status = 'Pending'");
       return $result;
     }
 
-    function fetchRequestOnProcess($userId) {
+    function fetchRequestOnProcess() {
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE status = 'On-Process'");
       return $result;
     }
 
-    function fetchRequestDone($userId) {
+    function fetchRequestDone() {
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE status = 'Done'");
       return $result;
     }
-    function fetchRequestCancelled($userId) {
+    function fetchRequestCancelled() {
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE status = 'Cancelled'");
       return $result;
     }
