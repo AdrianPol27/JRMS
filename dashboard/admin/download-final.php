@@ -13,6 +13,7 @@
   $fetchRequestRequestId = $functions->fetchRequestRequestId($requestId);
   while($row = mysqli_fetch_array($fetchRequestRequestId)) {
     $requestedBy = $row['requested_by'];
+    $jobOrderNumber = $row['job_order_number'];
     $department = $row['department'];
     $requestedDate = $row['requested_date'];
     $completionDate = $row['completion_date'];
@@ -56,7 +57,7 @@
     $pdf->Cell(48,10,$department,1,0);
     $pdf->SetFillColor(192,192,192);
     $pdf->Cell(47,10,"Completion Date",1,0,'R',true);
-    $pdf->Cell(48,10,'',1,0);
+    $pdf->Cell(48,10,$completionDate,1,0);
 
     $pdf->SetFont('Times','B',11.5);
     $pdf->Text(10, 93, 'RECOMMENDING APPROVAL:');
@@ -80,10 +81,10 @@
     $pdf->Cell(40,10,"LABOR NEEDED",1,1,'C',true);
     $pdf->SetFont('Arial','',10);
     $pdf->Cell(70,60,$workToBeDone ,1,0,'C');
-    $pdf->Cell(20,60,"",1,0,'C');
-    $pdf->Cell(30,60,"",1,0,'C');
-    $pdf->Cell(30,73,"",1,0,'C');
-    $pdf->Cell(40,73,"",1,1,'C');
+    $pdf->Cell(20,60,$qty,1,0,'C');
+    $pdf->Cell(30,60,$unitCost,1,0,'C');
+    $pdf->Cell(30,73,$totalCost,1,0,'C');
+    $pdf->Cell(40,73,$laborNeeded,1,1,'C');
     $pdf->SetXY(10, 188);
     $pdf->Cell(120,13,"TOTAL",1,0,'R');
 
@@ -179,6 +180,7 @@
     $pdf->Line(200, 310, 143, 310);
 
     $pdf->Text(15, 317, 'Job Order No:');
+    $pdf->Text(43, 317, $jobOrderNumber);
     $pdf->Line(40, 317, 110, 317);
 
     $pdf->Text(115, 317, 'Date Completed:');
@@ -188,7 +190,14 @@
     $pdf->Line(33, 324, 200, 324);
     $pdf->Line(33, 331, 200, 331);
 
-    $pdf->Text(15, 340, 'Note : For outside jobs, payments must be made in the Cashier Office. Please accomplish three (3) copies.','C');
+    $pdf->SetFont('Arial','',9);
+    $pdf->Text(30, 338, 'Note : For outside jobs, payments must be made in the Cashier Office. Please accomplish three (3) copies.','C');
+    $pdf->Line(15, 340, 200, 340);
+    $pdf->Text(15, 345, 'CMU-F-4-GSO-001');
+    $pdf->Text(95, 345, '01 December 2020');
+    $pdf->Text(150, 345, 'Rev. 1');
+    $pdf->Text(183, 345, 'Page 1 of 1');
+
 
     $pdf->Output();
   }

@@ -21,10 +21,20 @@
   if (isset($_GET['request_id'])) {
     $requestId = $_GET['request_id'];
   }
+	if (isset($_GET['unit'])) {
+    $unit = $_GET['unit'];
+  }
+	if (isset($_GET['unit_head'])) {
+    $unitHead = $_GET['unit_head'];
+  }
+	if (isset($_GET['outside'])) {
+    $outside = $_GET['outside'];
+  }
 
 	//Update Request
 	if (isset($_POST['update_request'])) {
 
+		$jobOrderNumber = $_POST['job_order_number'];
 		$unitHead = $_POST['unit_head'];
 		$quantity = $_POST['quantity'];
 		$unitCost = $_POST['unit_cost'];
@@ -33,6 +43,9 @@
 		$completionDate = $_POST['completion_date'];
 		$requestId = $_POST['request_id'];
 
+		if (empty($jobOrderNumber)) {
+      array_push($errors, "Job Order Number should not be empty!");
+    }
 		if (empty($unitHead)) {
       array_push($errors, "Unit Head should not be empty!");
     }
@@ -51,7 +64,7 @@
 		if (empty($completionDate)) {
       array_push($errors, "Completion Date should not be empty!");
     } else {
-			$updateRequest = $functions->updateRequest($requestId, $unitHead, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate);
+			$updateRequest = $functions->updateRequest($requestId, $jobOrderNumber, $unitHead, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate);
 			if ($updateRequest) {
 				header("Location: index.php");
 			}
@@ -243,22 +256,29 @@
 												<h6 class="m-0">Update Request</h6>
 											</div>
 											<div class="card-body">
+												<p><?= '<strong>Unit: </strong>' . $unit ?></p>
 												<div class="form-floating mb-1">
-                        	<input type="text" name="unit_head" class="form-control" placeholder="Unit Head">
+                        	<input type="text" name="unit_head" class="form-control" value="<?= $unitHead ?>" placeholder="Unit Head">
                         </div>
 												<div class="form-floating mb-1">
-                        	<input type="number" name="quantity" id="quantity" class="form-control" placeholder="Quantity">
-                        </div>
+													<input type="number" name="job_order_number" class="form-control" placeholder="Job Order Number">
+												</div>
+												<?php if ($outside == 'yes') { ?>
+													<div class="form-floating mb-1">
+														<input type="number" name="quantity" id="quantity" class="form-control" placeholder="Quantity">
+													</div>
+												<?php	} else { ?>
+													<input type="hidden" name="quantity" value="0">
+												<?php } ?>
+
                         <div class="form-floating mb-1">
-                            <input type="number" name="unit_cost" id="untiCost" class="form-control" placeholder="Unit Cost">
-                        </div>
-                        <div class="form-floating mb-1">
-                            <input type="text" name="labor_needed" id="laborNeeded" class="form-control" placeholder="Labor Needed">
+                            <input type="number" name="unit_cost" id="unitCost" class="form-control" placeholder="Unit Cost">
                         </div>
                         <div class="form-floating">
                             <input type="date" name="completion_date" id="completionDate" class="form-control" placeholder="Completion Date">
                         </div>
 												<input type="hidden" name="request_id" value="<?= $requestId ?>">
+												<input type="hidden" name="labor_needed" value="<?= $unit ?>">
 												<button type="submit" class="mt-1 btn btn-primary w-100" name="update_request">Update Request</button>
 											</div>
 										</div>
@@ -349,7 +369,5 @@
 		document.querySelector("#requestedDate").value = today; // Requested date
 
 	});
-
-
 
 </script>

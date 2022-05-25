@@ -22,17 +22,30 @@
 	// Add work
 	if (isset($_POST['add_work'])) {
 		
-		$unit = $_POST['unit'];
+		$unit = $_POST["unit"];
 		$college = $_POST["college"];
 		$department = $_POST["department"];
 		$requestedBy = $firstName . ' ' . $lastName;
 		$workToBeDone = $_POST["work_to_be_done"];
 		$requestedDate = $_POST["requested_date"];
+		$outside = $_POST["outside"];
 
 		$month = date("F",strtotime($requestedDate));
 		
-		if ($unit == 0) {
+		if ($unit == '0') {
 			array_push($errors, "Unit should not be empty!");
+		}
+		if ($unit == 'PSU') {
+			$unitHead = 'Lucas I. Balandra';
+		}
+		if ($unit == 'RFU') {
+			$unitHead = 'Wildon C. Ochigue';
+		}
+		if ($unit == 'BRCMU') {
+			$unitHead = 'Alejandro S. Asiñero';
+		}
+		if ($unit == 'EPPU') {
+			$unitHead = 'Bernie C. Actub';
 		}
 		if (empty($department)) {
       array_push($errors, "Department should not be empty!"); // Mag push og error kung empty ang username
@@ -42,7 +55,7 @@
     }
 		else {
 			if (!empty($department) && !empty($workToBeDone)) {
-				$addWork = $functions->addRequest($userId, $unit, $college, $department, $requestedBy, $workToBeDone, $requestedDate, $month);
+				$addWork = $functions->addRequest($userId, $unit, $unitHead, $college, $department, $requestedBy, $workToBeDone, $requestedDate, $month, $outside);
 				if ($addWork) {
 					header("Location: index.php");
 				}
@@ -234,14 +247,14 @@
 									<form action="add-new-request.php" method="post">
 										<div class="card mt-2">
 											<div class="form-select p-3">
-												<select class="form-control" name="unit">
+												<select name="unit" class="form-control">
 													<option value="0">Select Unit</option>
-													<option value="Plumbing and Sewerage Unit">Plumbing and Sewerage Unit</option>
-													<option value="Repair and Fabrication Unit">Repair and Fabrication Unit</option>
-													<option value="Building Construction, Repair and Maintenance Unit">Building Construction, Repair and Maintenance Unit</option>
-													<option value="Machines and Equipment Maintenance Unit">Machines and Equipment Maintenance Unit</option>
-													<option value="Ref and Aircon Unit">Ref and Aircon Unit</option>
-													<option value="Campus Landscaping and Beautication Development Unit">Campus Landscaping and Beautication Development Unit</option>
+													<option value="PSU">Plumbing and Sewerage Unit</option>
+													<option value="RFU">Repair and Fabrication Unit</option>
+													<option value="BCRMU">Building Construction, Repair and Maintenance Unit</option>
+													<option value="MU">Motorpool Unit</option>
+													<option value="EPPU">Electrical and Power Plant Unit</option>
+													<option value="CLBDU">Campus Landscaping and Beautication Development Unit</option>
 												</select>
 											</div>
 											<div class="card-header">
@@ -264,22 +277,18 @@
 												<input type="text" name="department" id="department" class="form-control mb-1" placeholder="Department">
 												<textarea name="work_to_be_done" class="form-control w-100" placeholder="Work To Be Done" style="height: 100px; resize: none"></textarea>
 												<input type="hidden" id="requestedDate" name="requested_date">
+												<div class="card my-3">
+													<div class="card-body">
+														<p class="m-0">Work to be done outside?</p>
+														<input type="radio" name="outside" id="radio1" value="yes" required> Yes
+														<input type="radio" name="outside" id="radio2" value="no" required> No
+													</div>
+												</div>
 												<button type="submit" class="mt-1 btn btn-primary w-100" name="add_work">Add Work</button>
 											</div>
 										</div>
 									</form>
 								</div>
-
-
-
-
-
-
-
-
-
-
-
 							</div>
 							<!-- /.container-fluid -->
 

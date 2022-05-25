@@ -315,6 +315,7 @@
                                     <thead>
                                         <tr>
                                             <th>Request Id</th>
+                                            <th>Job Order #</th>
                                             <th>Unit</th>
                                             <th>College</th>
                                             <th>Department</th>
@@ -327,6 +328,7 @@
                                             <th>Total Cost</th>
                                             <th>Labor Needed</th>
                                             <th>Completion Date</th>
+                                            <th>To Be Done Outside</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -338,6 +340,7 @@
                                         ?>
                                         <tr>
                                             <td><?= $row['request_id'] ?></td>
+                                            <td><?= $row['job_order_number'] ?></td>
                                             <td><?= $row['unit'] ?></td>
                                             <td><?= $row['college'] ?></td>
                                             <td><?= $row['department'] ?></td>
@@ -350,6 +353,7 @@
                                             <td><?= $row['total_cost'] ?></td>
                                             <td><?= $row['labor_needed'] ?></td>
                                             <td><?= $row['completion_date'] ?></td>
+                                            <td><?= $row['outside'] ?></td>
                                             <td>
                                                 <?php
                                                     if ($row['status'] == 'Cancelled') {
@@ -371,7 +375,7 @@
                                                 <?php } ?>
                                                 <!-- Approved -->
                                                 <?php if ($row['status'] == 'On-Process') { ?>
-                                                    <a href="update-request.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Update</a>
+                                                    <a href="update-request.php?request_id=<?= $row['request_id'] ?>&unit=<?= $row['unit'] ?>&unit_head=<?= $row['unit_head'] ?>&outside=<?= $row['outside'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Update</a>
                                                     <a href="download.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1" id="download" target="blank">Download</a>
                                                     <script>
                                                         document.getElementById("download").click();
@@ -379,7 +383,7 @@
                                                 <?php } ?>
                                                 <!-- Done -->
                                                 <?php if ($row['status'] == 'Done') { ?>
-                                                    <p class="m-0 text-success">Done</p>
+                                                    <a href="download-final.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1" id="download" target="blank">Download</a>
                                                 <?php } ?>
                                             </td>
                                         </tr>

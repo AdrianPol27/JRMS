@@ -44,13 +44,12 @@
   $pdf->Cell(0,95,'Month of ' . $month,0,0,'C');
   $pdf->SetFillColor(192,192,192);
   $pdf->SetXY(10, 65);
-  $pdf->SetFont('Arial','B',6);
+  $pdf->SetFont('Arial','B',9);
   $pdf->Cell(20,10,"COLLEGE",1,0,'C',true);
   $pdf->Cell(30,10,"DEPARTMENT",1,0,'C',true);
-  $pdf->Cell(25,10,"NAME.",1,0,'C',true);
-  $pdf->Cell(45,10,"NATURE OF WORK TO BE DONE",1,0,'C',true);
-  $pdf->Cell(30,10,"REQUESTED DATE",1,0,'C',true);
-  $pdf->Cell(30,10,"COMPLETION DATE",1,0,'C',true);
+  $pdf->Cell(40,10,"NAME.",1,0,'C',true);
+  $pdf->Cell(60,10,"NATURE OF WORK TO BE DONE",1,0,'C',true);
+  $pdf->Cell(30,10,"COMP DATE",1,0,'C',true);
   $pdf->Cell(15,10,"STATUS",1,1,'C',true);
 
   $fetchRequestByMonth = $functions->fetchRequestByMonth($month);
@@ -71,9 +70,8 @@
 
     $pdf->Cell(20,10,$college,1,0,'C');
     $pdf->Cell(30,10,$department,1,0,'C');
-    $pdf->Cell(25,10,$requestedBy,1,0,'C');
-    $pdf->Cell(45,10,$workToBeDone,1,0,'C');
-    $pdf->Cell(30,10,$requestedDate,1,0,'C');
+    $pdf->Cell(40,10,$requestedBy,1,0,'C');
+    $pdf->Cell(60,10,$workToBeDone,1,0,'C');
     $pdf->Cell(30,10,$completionDate,1,0,'C');
     $pdf->Cell(15,10,$status,1,1,'C'); 
 

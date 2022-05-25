@@ -52,8 +52,8 @@
       return $result;
     }
 
-    function updateRequest($requestId, $unitHead, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate) {
-      $result = mysqli_query($this->dbh, "UPDATE requests_tbl SET unit_head = '$unitHead', quantity = '$quantity', unit_cost = '$unitCost', total_cost = '$totalCost', labor_needed = '$laborNeeded', completion_date = '$completionDate', status = 'Done' WHERE request_id = '$requestId'");
+    function updateRequest($requestId, $jobOrderNumber, $unitHead, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate) {
+      $result = mysqli_query($this->dbh, "UPDATE requests_tbl SET job_order_number = '$jobOrderNumber', unit_head = '$unitHead', quantity = '$quantity', unit_cost = '$unitCost', total_cost = '$totalCost', labor_needed = '$laborNeeded', completion_date = '$completionDate', status = 'Done' WHERE request_id = '$requestId'");
       return $result;
     }
 
@@ -105,8 +105,8 @@
 
 
 
-    function addRequest($userId, $unit, $college, $department, $requestedBy, $workToBeDone, $requestedDate, $month) {
-      $result = mysqli_query($this->dbh, "INSERT INTO requests_tbl (user_id, unit, college, department, requested_by, work_to_be_done, labor_needed, requested_date, requested_month, status) VALUES ('$userId', '$unit', '$college', '$department', '$requestedBy', '$workToBeDone', '0', '$requestedDate', '$month', 'Pending')");
+    function addRequest($userId, $unit, $unitHead, $college, $department, $requestedBy, $workToBeDone, $requestedDate, $month, $outside) {
+      $result = mysqli_query($this->dbh, "INSERT INTO requests_tbl (user_id, unit, unit_head, college, department, requested_by, work_to_be_done, requested_date, requested_month, status, outside) VALUES ('$userId', '$unit', '$unitHead', '$college', '$department', '$requestedBy', '$workToBeDone', '$requestedDate', '$month', 'Pending', '$outside')");
       return $result;
     }
     function fetchRequestUserId($userId) {
