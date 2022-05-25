@@ -22,6 +22,7 @@
 	// Add work
 	if (isset($_POST['add_work'])) {
 		
+		$unit = $_POST['unit'];
 		$college = $_POST["college"];
 		$department = $_POST["department"];
 		$requestedBy = $firstName . ' ' . $lastName;
@@ -30,6 +31,9 @@
 
 		$month = date("F",strtotime($requestedDate));
 		
+		if ($unit == 0) {
+			array_push($errors, "Unit should not be empty!");
+		}
 		if (empty($department)) {
       array_push($errors, "Department should not be empty!"); // Mag push og error kung empty ang username
     }
@@ -38,7 +42,7 @@
     }
 		else {
 			if (!empty($department) && !empty($workToBeDone)) {
-				$addWork = $functions->addRequest($userId, $college, $department, $requestedBy, $workToBeDone, $requestedDate, $month);
+				$addWork = $functions->addRequest($userId, $unit, $college, $department, $requestedBy, $workToBeDone, $requestedDate, $month);
 				if ($addWork) {
 					header("Location: index.php");
 				}
@@ -59,7 +63,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>SB Admin 2 - Dashboard</title>
+	<title>User - Add New Request</title>
 
 	<!-- Custom fonts for this template-->
 	<link href="../.././vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -82,11 +86,11 @@
 			<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 					<!-- Sidebar - Brand -->
-					<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+					<a class="sidebar-brand d-flex align-items-center justify-content-center">
 							<div class="sidebar-brand-icon rotate-n-15">
 									<i class="fas fa-laugh-wink"></i>
 							</div>
-							<div class="sidebar-brand-text mx-3">JRMS</div>
+							<div class="sidebar-brand-text mx-3">REQUISITIONER</div>
 					</a>
 
 					<!-- Divider -->
@@ -229,6 +233,17 @@
 								<div class="col-lg-6">
 									<form action="add-new-request.php" method="post">
 										<div class="card mt-2">
+											<div class="form-select p-3">
+												<select class="form-control" name="unit">
+													<option value="0">Select Unit</option>
+													<option value="Plumbing and Sewerage Unit">Plumbing and Sewerage Unit</option>
+													<option value="Repair and Fabrication Unit">Repair and Fabrication Unit</option>
+													<option value="Building Construction, Repair and Maintenance Unit">Building Construction, Repair and Maintenance Unit</option>
+													<option value="Machines and Equipment Maintenance Unit">Machines and Equipment Maintenance Unit</option>
+													<option value="Ref and Aircon Unit">Ref and Aircon Unit</option>
+													<option value="Campus Landscaping and Beautication Development Unit">Campus Landscaping and Beautication Development Unit</option>
+												</select>
+											</div>
 											<div class="card-header">
 												<h6 class="m-0">Nature of Work</h6>
 											</div>

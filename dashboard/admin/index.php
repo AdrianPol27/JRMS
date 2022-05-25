@@ -36,7 +36,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Admin - Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="../.././vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -59,11 +59,11 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">JRMS</div>
+                <div class="sidebar-brand-text mx-3">ADMIN</div>
             </a>
 
             <!-- Divider -->
@@ -183,7 +183,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Admin Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                     </div>
 
                     <!-- Content Row -->
@@ -293,8 +293,8 @@
                         <div class="card-header py-3">
                             <div class="d-flex justify-content-between">
 
-                                <!-- <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#generateModal">Generate Data</a> -->
-
+                                <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#generateModal">Generate Data</a>
+<!-- 
                                 <button class="btn btn-primary btn-sm" id="Januray">January</button>
                                 <button class="btn btn-primary btn-sm" id="February">February</button>
                                 <button class="btn btn-primary btn-sm" id="March">March</button>
@@ -306,7 +306,7 @@
                                 <button class="btn btn-primary btn-sm" id="September">September</button>
                                 <button class="btn btn-primary btn-sm" id="October">October</button>
                                 <button class="btn btn-primary btn-sm" id="November">November</button>
-                                <button class="btn btn-primary btn-sm" id="December">December</button>
+                                <button class="btn btn-primary btn-sm" id="December">December</button> -->
                             </div>
                         </div>
                         <div class="card-body">
@@ -315,6 +315,7 @@
                                     <thead>
                                         <tr>
                                             <th>Request Id</th>
+                                            <th>Unit</th>
                                             <th>College</th>
                                             <th>Department</th>
                                             <th>Requested Date</th>
@@ -337,6 +338,7 @@
                                         ?>
                                         <tr>
                                             <td><?= $row['request_id'] ?></td>
+                                            <td><?= $row['unit'] ?></td>
                                             <td><?= $row['college'] ?></td>
                                             <td><?= $row['department'] ?></td>
                                             <td><?= $row['requested_date'] ?></td>
@@ -399,7 +401,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; Your Website 2022</span>
                     </div>
                 </div>
             </footer>
@@ -462,7 +464,7 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form action="generate.php" method="post">
+                <form action="generate.php" method="post" target="blank">
                     <div class="modal-body">On which month do you want to generate?
                         <select name="month" id="" class="form-control">
                             <option value="1">January</option>

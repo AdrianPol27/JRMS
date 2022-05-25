@@ -56,7 +56,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>SB Admin 2 - Dashboard</title>
+	<title> Admin - Feedback</title>
 
 	<!-- Custom fonts for this template-->
 	<link href="../.././vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -79,11 +79,11 @@
 			<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 					<!-- Sidebar - Brand -->
-					<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+					<a class="sidebar-brand d-flex align-items-center justify-content-center">
 							<div class="sidebar-brand-icon rotate-n-15">
 									<i class="fas fa-laugh-wink"></i>
 							</div>
-							<div class="sidebar-brand-text mx-3">JRMS</div>
+							<div class="sidebar-brand-text mx-3">ADMIN</div>
 					</a>
 
 					<!-- Divider -->
@@ -209,19 +209,36 @@
 						
 								<div class="row">
 									<?php
-											$fetchFeedbacks = $functions->fetchFeedbacks();
-											while($row = mysqli_fetch_array($fetchFeedbacks)) {
+											$fetchRequest = $functions->fetchRequest();
+											while($request = mysqli_fetch_array($fetchRequest)) {
 									?>
 										<div class="col-lg-4">
-											<div class="card">
-												<div class="card-header">
-													<p class="plain m-0"><?= $row['fullname'] ?></p>
-												</div>
-												<div class="card-body">
-													<p class="m-0"><?= $row['feedback'] ?></p>
-												</div>
-											</div>
+												<div class="card">
+													<div class="card-header">
+														<p class="plain m-0"><?= $request['requested_by'] ?></p>
+													</div>
+													<div class="card-body">
+														<?php
+															$requestId = $request['request_id'];
+															$fetchFeedbackByRequestId = $functions->fetchFeedbackByRequestId($requestId);
+															while($row = mysqli_fetch_array($fetchFeedbackByRequestId)) {
+														?>
+															<p><?= $row['feedback'] ?></p>
+														<?php } ?>
+														<button type="button" class="btn btn-primary w-100" data-toggle="collapse" data-target="#demo<?= $request['request_id'] ?>">View More Details</button>
+															<div id="demo<?= $request['request_id'] ?>" class="collapse mt-2">
+																<p class="m-0">
+																	<strong>Requested Date:</strong> <?= $request['requested_date'] ?><br>
+																	<strong>Work:</strong> <?= $request['work_to_be_done'] ?><br>
+																	<strong>Unit:</strong> <?= $request['unit'] ?><br>
+																	<strong>Unit Head:</strong> <?= $request['unit_head'] ?>
+																</p>
+																
+															</div>
+													</div>
+															</div>
 										</div>
+
 									<?php } ?>
 								</div>
 
@@ -237,7 +254,7 @@
 					<footer class="sticky-footer bg-white">
 							<div class="container my-auto">
 									<div class="copyright text-center my-auto">
-											<span>Copyright &copy; Your Website 2021</span>
+											<span>Copyright &copy; Your Website 2022</span>
 									</div>
 							</div>
 					</footer>

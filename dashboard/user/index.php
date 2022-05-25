@@ -31,7 +31,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>User - Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="../.././vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -54,11 +54,11 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">JRMS</div>
+                <div class="sidebar-brand-text mx-3">REQUISITIONER</div>
             </a>
 
             <!-- Divider -->
@@ -193,7 +193,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">User Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                     </div>
 
                     <!-- Content Row -->
@@ -308,6 +308,7 @@
                                         <tr>
                                             <th>Requested Date</th>
                                             <th>Requested By</th>
+                                            <th>Unit</th>
                                             <th>College</th>
                                             <th>Department</th>
                                             <th>Work To Be Done</th>
@@ -325,6 +326,7 @@
                                         <tr>
                                             <td><?= $row['requested_date'] ?></td>
                                             <td><?= $row['requested_by'] ?></td>
+                                            <td><?= $row['unit'] ?></td>
                                             <td><?= $row['college'] ?></td>
                                             <td><?= $row['department'] ?></td>
                                             <td><?= $row['work_to_be_done'] ?></td>
@@ -394,7 +396,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; Your Website 2022</span>
                     </div>
                 </div>
             </footer>

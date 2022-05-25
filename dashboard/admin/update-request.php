@@ -25,6 +25,7 @@
 	//Update Request
 	if (isset($_POST['update_request'])) {
 
+		$unitHead = $_POST['unit_head'];
 		$quantity = $_POST['quantity'];
 		$unitCost = $_POST['unit_cost'];
 		$totalCost = $quantity * $unitCost;
@@ -32,6 +33,9 @@
 		$completionDate = $_POST['completion_date'];
 		$requestId = $_POST['request_id'];
 
+		if (empty($unitHead)) {
+      array_push($errors, "Unit Head should not be empty!");
+    }
 		if (empty($quantity)) {
       array_push($errors, "Quantity should not be empty!");
     }
@@ -47,7 +51,7 @@
 		if (empty($completionDate)) {
       array_push($errors, "Completion Date should not be empty!");
     } else {
-			$updateRequest = $functions->updateRequest($requestId, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate);
+			$updateRequest = $functions->updateRequest($requestId, $unitHead, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate);
 			if ($updateRequest) {
 				header("Location: index.php");
 			}
@@ -67,7 +71,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>SB Admin 2 - Dashboard</title>
+	<title>Admin - Update Request</title>
 
 	<!-- Custom fonts for this template-->
 	<link href="../.././vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -90,11 +94,11 @@
 			<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 					<!-- Sidebar - Brand -->
-					<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+					<a class="sidebar-brand d-flex align-items-center justify-content-center">
 							<div class="sidebar-brand-icon rotate-n-15">
 									<i class="fas fa-laugh-wink"></i>
 							</div>
-							<div class="sidebar-brand-text mx-3">JRMS</div>
+							<div class="sidebar-brand-text mx-3">ADMIN</div>
 					</a>
 
 					<!-- Divider -->
@@ -240,6 +244,9 @@
 											</div>
 											<div class="card-body">
 												<div class="form-floating mb-1">
+                        	<input type="text" name="unit_head" class="form-control" placeholder="Unit Head">
+                        </div>
+												<div class="form-floating mb-1">
                         	<input type="number" name="quantity" id="quantity" class="form-control" placeholder="Quantity">
                         </div>
                         <div class="form-floating mb-1">
@@ -268,7 +275,7 @@
 					<footer class="sticky-footer bg-white">
 							<div class="container my-auto">
 									<div class="copyright text-center my-auto">
-											<span>Copyright &copy; Your Website 2021</span>
+											<span>Copyright &copy; Your Website 2022</span>
 									</div>
 							</div>
 					</footer>

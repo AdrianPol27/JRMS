@@ -29,10 +29,6 @@
       $result = mysqli_query($this->dbh, "INSERT INTO users_tbl (privilege_level, first_name, middle_name, last_name, email, password) VALUES ('$privilegeLevel','$firstname','$middlename','$lastname','$email','$password')");
       return $result;
     }
-    function fetchRequestFormUserId($requestedBy) {
-      $result = mysqli_query($this->dbh, "SELECT * FROM request_form_tbl WHERE requested_by = '$requestedBy'");
-      return $result;
-    }
     function cancelRequest($requestId) {
       $result = mysqli_query($this->dbh, "DELETE FROM requests_tbl WHERE request_id = '$requestId'");
       return $result;
@@ -46,14 +42,18 @@
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl ORDER BY request_id ASC");
       return $result;
     }
+    function fetchRequest() {
+      $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl");
+      return $result;
+    }
 
     function onProcessRequest($requestId) {
       $result = mysqli_query($this->dbh, "UPDATE requests_tbl SET status = 'On-Process' WHERE request_id = '$requestId'");
       return $result;
     }
 
-    function updateRequest($requestId, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate) {
-      $result = mysqli_query($this->dbh, "UPDATE requests_tbl SET quantity = '$quantity', unit_cost = '$unitCost', total_cost = '$totalCost', labor_needed = '$laborNeeded', completion_date = '$completionDate', status = 'Done' WHERE request_id = '$requestId'");
+    function updateRequest($requestId, $unitHead, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate) {
+      $result = mysqli_query($this->dbh, "UPDATE requests_tbl SET unit_head = '$unitHead', quantity = '$quantity', unit_cost = '$unitCost', total_cost = '$totalCost', labor_needed = '$laborNeeded', completion_date = '$completionDate', status = 'Done' WHERE request_id = '$requestId'");
       return $result;
     }
 
@@ -105,8 +105,8 @@
 
 
 
-    function addRequest($userId, $college, $department, $requestedBy, $workToBeDone, $requestedDate, $month) {
-      $result = mysqli_query($this->dbh, "INSERT INTO requests_tbl (user_id, college, department, requested_by, work_to_be_done, labor_needed, requested_date, requested_month, status) VALUES ('$userId', '$college', '$department', '$requestedBy', '$workToBeDone', '0', '$requestedDate', '$month', 'Pending')");
+    function addRequest($userId, $unit, $college, $department, $requestedBy, $workToBeDone, $requestedDate, $month) {
+      $result = mysqli_query($this->dbh, "INSERT INTO requests_tbl (user_id, unit, college, department, requested_by, work_to_be_done, labor_needed, requested_date, requested_month, status) VALUES ('$userId', '$unit', '$college', '$department', '$requestedBy', '$workToBeDone', '0', '$requestedDate', '$month', 'Pending')");
       return $result;
     }
     function fetchRequestUserId($userId) {
@@ -115,6 +115,10 @@
     }
     function fetchRequestRequestId($requestId) {
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE request_id = '$requestId'");
+      return $result;
+    }
+    function fetchFeedbackByName($name) {
+      $result = mysqli_query($this->dbh, "SELECT * FROM feedbacks_tbl WHERE fullname = '$name'");
       return $result;
     }
 
