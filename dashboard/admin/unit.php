@@ -12,7 +12,7 @@
         $firstName = $_SESSION['first_name'];
     }
 	if (isset($_SESSION['middle_name'])) {
-        $middleName = $_SESSION['middle_name']; 
+        $middleName = $_SESSION['middle_name'];
     }
     if (isset($_SESSION['last_name'])) {
         $lastName = $_SESSION['last_name'];
@@ -70,7 +70,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="index.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
@@ -90,7 +90,7 @@
                     <span>User</span>
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="unit.php">
                 <i class="fas fa-fw fa-comment"></i>
                     <!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
@@ -212,135 +212,14 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Units</h1>
                     </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <button class="btn btn-lg w-100" id="pending">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                    Pending
-                                                </div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                    <?php
-                                                        $fetchRequestPending = $functions->fetchRequestPending();
-                                                        $rowcount = mysqli_num_rows($fetchRequestPending);
-                                                        printf($rowcount);
-                                                    ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </button>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <button class="btn btn-lg w-100" id="onProcess">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                    On-Process
-                                                </div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                    <?php
-                                                        $fetchRequestOnProcess = $functions->fetchRequestOnProcess();
-                                                        $rowcount = mysqli_num_rows($fetchRequestOnProcess);
-                                                        printf($rowcount);
-                                                    ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </button>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <button class="btn btn-lg w-100" id="done">
-                                <div class="card border-left-success shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                    
-                                                    Done
-                                                </div>
-                                               
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                    <?php
-                                                        $fetchRequestDone = $functions->fetchRequestDone();
-                                                        $rowcount = mysqli_num_rows($fetchRequestDone);
-                                                        printf($rowcount);
-                                                    ?>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </button>
-                        </div>
-
-                         <!-- Earnings (Monthly) Card Example -->
-                         <div class="col-xl-3 col-md-6 mb-4">
-                            <button class="btn btn-lg w-100" id="cancelled">
-                                <div class="card border-left-danger shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                                    Cancelled
-                                                </div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                    <?php
-                                                        $fetchRequestCancelled = $functions->fetchRequestCancelled();
-                                                        $rowcount = mysqli_num_rows($fetchRequestCancelled);
-                                                        printf($rowcount);
-                                                    ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </button>
-                        </div>
-
-                    </div>
-                    <!-- Content Row -->
 
 				    <!-- DataTables Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <div class="d-flex justify-content-between">
-
-                                <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#generateModal">Generate Monthly List</a>
-                                <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#generateDateModal">Generate By Date</a>
-                                <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#generateStatusModal">Generate By Status</a>
-<!-- 
-                                <button class="btn btn-primary btn-sm" id="Januray">January</button>
-                                <button class="btn btn-primary btn-sm" id="February">February</button>
-                                <button class="btn btn-primary btn-sm" id="March">March</button>
-                                <button class="btn btn-primary btn-sm" id="April">April</button>
-                                <button class="btn btn-primary btn-sm" id="May">May</button>
-                                <button class="btn btn-primary btn-sm" id="June">June</button>
-                                <button class="btn btn-primary btn-sm" id="July">July</button>
-                                <button class="btn btn-primary btn-sm" id="August">August</button>
-                                <button class="btn btn-primary btn-sm" id="September">September</button>
-                                <button class="btn btn-primary btn-sm" id="October">October</button>
-                                <button class="btn btn-primary btn-sm" id="November">November</button>
-                                <button class="btn btn-primary btn-sm" id="December">December</button> -->
+                                <a href="add-unit.php" class="btn btn-primary btn-sm">Add Unit</a>
                             </div>
                         </div>
                         <div class="card-body">
@@ -348,88 +227,22 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Request Id</th>
-                                            <th>Job Order #</th>
-                                            <th>Unit</th>
-                                            <th>College</th>
-                                            <th>Department</th>
-                                            <th>Requested Date</th>
-                                            <th>Month</th>
-                                            <th>Requested By</th>
-                                            <th>Work To Be Done</th>
-                                            <th>Quantity</th>
-                                            <th>Unit Cost</th>
-                                            <th>Total Cost</th>
-                                            <th>Labor Needed</th>
-                                            <th>Completion Date</th>
-                                            <th>To Be Done Outside</th>
-                                            <th>Status</th>
-                                            <th>Days Done</th>
+                                            <th>Unit Name</th>
+                                            <th>Unit Head</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
                                         <?php
-                                            $fetchRequestForm = $functions->fetchRequestForm();
-                                            while($row = mysqli_fetch_array($fetchRequestForm)) {
+                                            $fetchUnits = $functions->fetchUnits();
+                                            while($row = mysqli_fetch_array($fetchUnits)) {
                                         ?>
                                         <tr>
-                                            <td><?= $row['request_id'] ?></td>
-                                            <td><?= $row['job_order_number'] ?></td>
-                                            <td><?= $row['unit'] ?></td>
-                                            <td><?= $row['college'] ?></td>
-                                            <td><?= $row['department'] ?></td>
-                                            <td><?= $row['requested_date'] ?></td>
-                                            <td><?= $row['requested_month'] ?></td>
-                                            <td><?= $row['requested_by'] ?></td>
-                                            <td><?= $row['work_to_be_done'] ?></td>
-                                            <td><?= $row['quantity'] ?></td>
-                                            <td><?= $row['unit_cost'] ?></td>
-                                            <td><?= $row['total_cost'] ?></td>
-                                            <td><?= $row['labor_needed'] ?></td>
-                                            <td><?= $row['completion_date'] ?></td>
-                                            <td><?= $row['outside'] ?></td>
+                                            <td><?= $row['unit_name'] ?></td>
+                                            <td><?= $row['unit_head'] ?></td>
                                             <td>
-                                                <?php
-                                                    if ($row['status'] == 'Cancelled') {
-                                                        echo '<p class="text-danger">Cancelled</p>';
-                                                    } else {
-                                                        echo $row['status'];
-                                                    }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                    if ($row['status'] == 'Done') {
-                                                        echo $row['days_done'];
-                                                    } else {
-                                                        echo 'Computing';
-                                                    }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                    if ($row['status'] == 'Cancelled') { ?>
-                                                    <button class="btn btn-danger w-100" disabled>Cancel</button>
-                                                <?php } ?>
-                                                <!-- Pending -->
-                                                <?php if ($row['status'] == 'Pending') { ?>
-                                                    <a href="index.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Process</a> <br>
-                                                    <a href="cancel-request.php?request_id=<?= $row['request_id'] ?>" class="btn btn-danger btn-sm w-100 mb-1" onclick="myFunction()"> Cancel</a>
-                                                <?php } ?>
-                                                <!-- Approved -->
-                                                <?php if ($row['status'] == 'On-Process') { ?>
-                                                    <a href="update-request.php?request_id=<?= $row['request_id'] ?>&unit=<?= $row['unit'] ?>&unit_head=<?= $row['unit_head'] ?>&outside=<?= $row['outside'] ?>&from_date=<?= $row['requested_date'] ?>" class="btn btn-primary btn-sm w-100 mb-1">Update</a>
-                                                    <a href="download.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1" id="download" target="blank">Download</a>
-                                                    <script>
-                                                        document.getElementById("download").click();
-                                                    </script>
-                                                <?php } ?>
-                                                <!-- Done -->
-                                                <?php if ($row['status'] == 'Done') { ?>
-                                                    <a href="download-final.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary btn-sm w-100 mb-1" id="download" target="blank">Download</a>
-                                                <?php } ?>
+                                                <a href="update-unit.php?unit_id=<?= $row["unit_id"]?>&unit_name=<?= $row["unit_name"]?>&unit_head=<?= $row["unit_head"]?>" class="btn btn-info btn-sm">Update</a>
+                                                <a href="delete-unit.php?unit_id=<?= $row["unit_id"]?>" class="btn btn-danger btn-sm">Delete</a>
                                             </td>
                                         </tr>
                                         
@@ -529,65 +342,6 @@
                             <option value="11">November</option>
                             <option value="12">December</option>
                         </select>
-                    </div>                
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Generate</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="generateDateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Generate Data</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <form action="generate-date.php" method="post" target="blank">
-                    <div class="modal-body">Select from to date to generate
-                        <div class="form-floating">
-                            From Date
-                            <input type="date" name="from_date" class="form-control" placeholder="From Date">
-                        </div>
-                        <div class="form-floating">
-                            To Date
-                            <input type="date" name="to_date" class="form-control" placeholder="To Date">
-                        </div>
-                    </div>                
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Generate</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="generateStatusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Generate Data</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <form action="generate-status.php" method="post" target="blank">
-                    <div class="modal-body">Select status to generate
-                        <div class="form-floating">
-                            <select name="status" class="form-control">
-                                <option value="Pending">Pending</option>
-                                <option value="On-Process">On-Process</option>
-                                <option value="Done">Done</option>
-                            </select>
-                        </div>
                     </div>                
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>

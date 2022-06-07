@@ -3,7 +3,7 @@
   define('DB_SERVER','localhost');
   define('DB_USERNAME','root');
   define('DB_PASSWORD','');
-  define('DB_NAME','jrms');
+  define('DB_NAME','jrms-new');
 
   $errors = array();
   $errorSuccess = array();
@@ -52,8 +52,8 @@
       return $result;
     }
 
-    function updateRequest($requestId, $jobOrderNumber, $unitHead, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate) {
-      $result = mysqli_query($this->dbh, "UPDATE requests_tbl SET job_order_number = '$jobOrderNumber', unit_head = '$unitHead', quantity = '$quantity', unit_cost = '$unitCost', total_cost = '$totalCost', labor_needed = '$laborNeeded', completion_date = '$completionDate', status = 'Done' WHERE request_id = '$requestId'");
+    function updateRequest($requestId, $jobOrderNumber, $unitHead, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate, $daysDone) {
+      $result = mysqli_query($this->dbh, "UPDATE requests_tbl SET job_order_number = '$jobOrderNumber', unit_head = '$unitHead', quantity = '$quantity', unit_cost = '$unitCost', total_cost = '$totalCost', labor_needed = '$laborNeeded', completion_date = '$completionDate', status = 'Done', days_done = '$daysDone' WHERE request_id = '$requestId'");
       return $result;
     }
 
@@ -79,7 +79,14 @@
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE requested_month = '$month'");
       return $result;
     }
-
+    function fetchRequestByDate($fromDate, $toDate) {
+      $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE requested_date BETWEEN '$fromDate' AND '$toDate'");
+      return $result;
+    }
+    function fetchRequestByStatus($status) {
+      $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE status = '$status'");
+      return $result;
+    }
     function fetchRequestPending() {
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE status = 'Pending'");
       return $result;
@@ -139,6 +146,73 @@
       return $result;
     }
 
+    function fetchUnits() {
+      $result = mysqli_query($this->dbh, "SELECT * FROM units_tbl");
+      return $result;
+    }
+    function addUnit($unitName, $unitHead) {
+      $result = mysqli_query($this->dbh, "INSERT INTO units_tbl (unit_name, unit_head) VALUES ('$unitName', '$unitHead')");
+      return $result;
+    }
+    function deleteUnit($unitId) {
+      $result = mysqli_query($this->dbh, "DELETE FROM units_tbl WHERE unit_id = '$unitId'");
+      return $result;
+    }
+    function updateUnit($unitId, $unitName, $unitHead) {
+      $result = mysqli_query($this->dbh, "UPDATE units_tbl SET unit_name = '$unitName', unit_head = '$unitHead' WHERE unit_id = '$unitId'");
+      return $result;
+    }
+
+
+    function fetchColleges() {
+      $result = mysqli_query($this->dbh, "SELECT * FROM colleges_tbl");
+      return $result;
+    }
+    function fetchDepartmentByCollegeName($collegeNameAbbr) {
+      $result = mysqli_query($this->dbh, "SELECT * FROM department_tbl WHERE college_name = '$collegeNameAbbr'");
+      return $result;
+    }
+    function addCollege($collegeName) {
+      $result = mysqli_query($this->dbh, "INSERT INTO colleges_tbl (college_name) VALUES ('$collegeName')");
+      return $result;
+    }
+    function deleteCollege($collegeId) {
+      $result = mysqli_query($this->dbh, "DELETE FROM colleges_tbl WHERE college_id = '$collegeId'");
+      return $result;
+    }
+    function updateCollege($collegeId, $collegeName) {
+      $result = mysqli_query($this->dbh, "UPDATE colleges_tbl SET college_name = '$collegeName' WHERE college_id = '$collegeId'");
+      return $result;
+    }
+
+
+    function addDepartment($departmentName, $collegeName) {
+      $result = mysqli_query($this->dbh, "INSERT INTO department_tbl (department_name, college_name) VALUES ('$departmentName', '$collegeName')");
+      return $result;
+    }
+    function fetchDepartment() {
+      $result = mysqli_query($this->dbh, "SELECT * FROM department_tbl");
+      return $result;
+    }
+    function deleteDepartment($departmentId) {
+      $result = mysqli_query($this->dbh, "DELETE FROM department_tbl WHERE department_id = '$departmentId'");
+      return $result;
+    }
+    function updateDepartment($departmentId, $departmentName) {
+      $result = mysqli_query($this->dbh, "UPDATE department_tbl SET department_name = '$departmentName' WHERE department_id = '$departmentId'");
+      return $result;
+    }
+
+
+
+    function fetchUsers() {
+      $result = mysqli_query($this->dbh, "SELECT * FROM users_tbl WHERE privilege_level = 2");
+      return $result;
+    }
+    function deleteUser($userId) {
+      $result = mysqli_query($this->dbh, "DELETE FROM users_tbl WHERE user_id = '$usertId'");
+      return $result;
+    }
   }
 
 ?>

@@ -97,9 +97,37 @@
 							</a>
 					</li>
 					<li class="nav-item active">
-                <a class="nav-link" href="feedback.php">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Feedback</span>
+                		<a class="nav-link" href="feedback.php">
+						<i class="fas fa-fw fa-comment"></i>
+							<span>Feedback</span>
+						</a>
+					</li>
+					<li class="nav-item">
+                <a class="nav-link" href="user.php">
+                <i class="fas fa-fw fa-comment"></i>
+                    <!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
+                    <span>User</span>
+                </a>
+            </li>
+					<li class="nav-item">
+						<a class="nav-link" href="unit.php">
+						<i class="fas fa-fw fa-comment"></i>
+							<!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
+							<span>Units</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="college.php">
+						<i class="fas fa-fw fa-comment"></i>
+							<!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
+							<span>College</span>
+						</a>
+            		</li>
+					<li class="nav-item">
+                <a class="nav-link" href="department.php">
+                <i class="fas fa-fw fa-comment"></i>
+                    <!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
+                    <span>Department</span>
                 </a>
             </li>
 
@@ -173,7 +201,7 @@
 													<!-- Dropdown - User Information -->
 													<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
 															aria-labelledby="userDropdown">
-															<a class="dropdown-item" href="#">
+															<!-- <a class="dropdown-item" href="#">
 																	<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
 																	Profile
 															</a>
@@ -184,7 +212,7 @@
 															<a class="dropdown-item" href="#">
 																	<i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
 																	Activity Log
-															</a>
+															</a> -->
 															<div class="dropdown-divider"></div>
 															<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
 																	<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -209,8 +237,8 @@
 						
 								<div class="row">
 									<?php
-											$fetchRequest = $functions->fetchRequest();
-											while($request = mysqli_fetch_array($fetchRequest)) {
+											$fetchRequestDone = $functions->fetchRequestDone();
+											while($request = mysqli_fetch_array($fetchRequestDone)) {
 									?>
 										<div class="col-lg-4">
 												<div class="card">

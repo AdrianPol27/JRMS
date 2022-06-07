@@ -5,20 +5,8 @@
   include_once("../.././functions.php"); // Include functions.php
   $functions = new Functions(); // Create function object
 
-  $month = $_POST['month'];
-
-  if ($month == '1') {$month = 'January';}
-  if ($month == '2') {$month = 'February';}
-  if ($month == '3') {$month = 'March';}
-  if ($month == '4') {$month = 'April';}
-  if ($month == '5') {$month = 'May';}
-  if ($month == '6') {$month = 'June';}
-  if ($month == '7') {$month = 'July';}
-  if ($month == '8') {$month = 'August';}
-  if ($month == '9') {$month = 'September';}
-  if ($month == '10') {$month = 'October';}
-  if ($month == '11') {$month = 'November';}
-  if ($month == '12') {$month = 'December';}
+  $fromDate = $_POST['from_date'];
+  $toDate = $_POST['to_date'];
   
   require("../.././fpdf184/fpdf.php");
 
@@ -41,7 +29,7 @@
 
 
   $pdf->SetFont('Times','B',13);
-  $pdf->Cell(0,95,'REPORTS FOR THE MONTH OF MAY ' . $month,0,0,'C');
+  $pdf->Cell(0,95,'REPORTS FROM ' . $fromDate . ' TO ' . $toDate ,0,0,'C');
   $pdf->SetFillColor(192,192,192);
   $pdf->SetXY(10, 65);
   $pdf->SetFont('Arial','B',9);
@@ -52,7 +40,7 @@
   $pdf->Cell(30,10,"COMP DATE",1,0,'C',true);
   $pdf->Cell(15,10,"STATUS",1,1,'C',true);
 
-  $fetchRequestByMonth = $functions->fetchRequestByMonth($month);
+  $fetchRequestByMonth = $functions->fetchRequestByDate($fromDate, $toDate);
   while($row = mysqli_fetch_array($fetchRequestByMonth)) {
     $requestedBy = $row['requested_by'];
     $unit = $row['unit'];

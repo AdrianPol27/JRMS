@@ -2,6 +2,6 @@
 
   session_abort();
   session_destroy();
-  header('Location: index.php')
+  header("location: .././gso/index.html");
 
 ?>

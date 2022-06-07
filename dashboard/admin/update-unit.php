@@ -18,33 +18,32 @@
   if (isset($_SESSION['last_name'])) {
     $lastName = $_SESSION['last_name'];
   }
+  if (isset($_GET['unit_id'])) {
+    $unitId = $_GET['unit_id'];
+  }
+  if (isset($_GET['unit_name'])) {
+    $unitName = $_GET['unit_name'];
+  }
+  if (isset($_GET['unit_head'])) {
+    $unitHead = $_GET['unit_head'];
+  }
 
-	// Add work
-	if (isset($_POST['add_work'])) {
-		
-		$unit = $_POST["unit"];
-		$unitHead = $_POST["unit_head"];
-		$college = $_POST["college"];
-		$department = $_POST["department"];
-		$requestedBy = $firstName . ' ' . $lastName;
-		$workToBeDone = $_POST["work_to_be_done"];
-		$requestedDate = $_POST["requested_date"];
-		$outside = $_POST["outside"];
+	//Update Request
+	if (isset($_POST['update_unit'])) {
 
-		$month = date("F",strtotime($requestedDate));
-		
-		if (empty($department)) {
-      array_push($errors, "Department should not be empty!"); // Mag push og error kung empty ang username
-    }
-		if (empty($workToBeDone)) {
-      array_push($errors, "Work To Be Done should not be empty!"); // Mag push og error kung empty ang username
-    }
-		else {
-			if (!empty($department) && !empty($workToBeDone)) {
-				$addWork = $functions->addRequest($userId, $unit, $unitHead, $college, $department, $requestedBy, $workToBeDone, $requestedDate, $month, $outside);
-				if ($addWork) {
-					header("Location: index.php");
-				}
+		$unitId = $_POST["unit_id"];
+		$unitName = $_POST['unit_name'];
+		$unitHead = $_POST['unit_head'];
+
+		if (empty($unitName)) {
+			array_push($errors, "Unit Name should not be empty!");
+		}
+		if (empty($unitHead)) {
+			array_push($errors, "Unit Head should not be empty!");
+		} else {
+			$updateUnit = $functions->updateUnit($unitId, $unitName, $unitHead);
+			if ($updateUnit) {
+				header("Location: unit.php");
 			}
 		}
 	}
@@ -62,7 +61,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>User - Add New Request</title>
+	<title>Admin - Create Unit</title>
 
 	<!-- Custom fonts for this template-->
 	<link href="../.././vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -89,7 +88,7 @@
 							<div class="sidebar-brand-icon rotate-n-15">
 									<i class="fas fa-laugh-wink"></i>
 							</div>
-							<div class="sidebar-brand-text mx-3">REQUISITIONER</div>
+							<div class="sidebar-brand-text mx-3">ADMIN</div>
 					</a>
 
 					<!-- Divider -->
@@ -111,9 +110,22 @@
 							
 							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 									<div class="bg-white py-2 collapse-inner rounded">
-											<a class="collapse-item" href="add-new-request.php">Add New Request</a>
+											<a class="collapse-item" href="work-request.php">Manage Request</a>
 									</div>
 							</div>
+					</li>
+					<li class="nav-item">
+                		<a class="nav-link" href="feedback.php">
+							<i class="fas fa-fw fa-tachometer-alt"></i>
+							<span>Feedback</span>
+						</a>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="unit.php">
+						<i class="fas fa-fw fa-comment"></i>
+							<!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
+							<span>Units</span>
+						</a>
 					</li>
 
 					<!-- Divider -->
@@ -223,88 +235,36 @@
 							<div class="container-fluid">
 
 								<!-- Page Heading -->
-								<div class="d-sm-flex align-items-center justify-content-between mb-4">
-									<h1 class="h3 mb-0 text-gray-800">Add New Request</h1>
+								<div class="d-sm-flex align-items-center justify-content-center mb-4">
+									<h1 class="h3 mb-0 text-gray-800">Add Unit</h1>
 								</div>
-
-								<?php include('../.././errors.php') ?>
-
-								<div class="col-lg-6">
-									<form action="add-new-request.php" method="post">
-										<div class="card mt-2">
-											<div class="form-select p-3">
-												<select name="unit" class="form-control" id="sample1">
-												<?php
-													$fetchUnits = $functions->fetchUnits();
-													while($row = mysqli_fetch_array($fetchUnits)) {
-
-													$unitName = $row["unit_name"];
-													$unitNameAbbr = preg_replace('~[^A-Z]~', '', $unitName);
-												?>
-													
-													<option value="<?= $unitNameAbbr ?>"><?= $unitName ?></option>
-												
-												<?php } ?>
-												</select>
-
-												<select name="unit_head" class="form-control d-none" id="sample2">
-													<?php
-														$fetchUnits = $functions->fetchUnits();
-														while($row = mysqli_fetch_array($fetchUnits)) {
-
-														$unitHead = $row["unit_head"];
-													?>
-														
-														<option value="<?= $unitHead ?>"><?= $unitHead ?></option>
-													
-													<?php } ?>
-												</select>
-												
-											</div>
-											<div class="card-header">
-												<h6 class="m-0">Nature of Work</h6>
-											</div>
-											<div class="card-body">
-												<select name="college" class="form-control">
-													<?php
-														$fetchColleges = $functions->fetchColleges();
-														while($row = mysqli_fetch_array($fetchColleges)) {
-
-														$collegeName = $row["college_name"];
-														$collegeNameAbbr = preg_replace('~[^A-Z]~', '', $collegeName);
-													?>
-														
-														<option value="<?= $collegeName ?>"><?= $collegeName ?></option>
-													
-													<?php } ?>
-												</select>
-												<select name="department" class="form-control">
-													<?php
-														$fetchDepartmentByCollegeName = $functions->fetchDepartmentByCollegeName($collegeNameAbbr) ;
-														while($row = mysqli_fetch_array($fetchDepartmentByCollegeName)) {
-
-														$departmentName = $row["department_name"];
-													?>
-														
-														<option value="<?= $departmentName ?>"><?= $departmentName ?></option>
-													
-													<?php } ?>
-												</select>
-												<input type="text" name="department" id="department" class="form-control mb-1" placeholder="Department">
-												<textarea name="work_to_be_done" class="form-control w-100" placeholder="Work To Be Done" style="height: 100px; resize: none"></textarea>
-												<input type="hidden" id="requestedDate" name="requested_date">
-												<div class="card my-3">
-													<div class="card-body">
-														<p class="m-0">To Be Done Outside?</p>
-														<input type="radio" name="outside" id="radio1" value="Yes" required> Yes
-														<input type="radio" name="outside" id="radio2" value="No" required> No
-													</div>
+								<div class="row">
+									<div class="col-lg-3"></div>
+									<div class="col-lg-6">
+										<?php include('../../errors.php') ?>
+										<form action="update-unit.php" method="post">
+											<div class="card mt-2">
+												<div class="card-header">
+													<h6 class="m-0">Update Unit</h6>
 												</div>
-												<button type="submit" class="mt-1 btn btn-primary w-100" name="add_work">Add Work</button>
+												<div class="card-body">
+													<div class="form-floating mb-1">
+														<strong>Unit Name:</strong>
+														<input type="text" name="unit_name" class="form-control" value="<?= $unitName ?>" placeholder="Enter Unit Name">
+													</div>
+													<div class="form-floating mb-1 mt-2">
+														<strong>Unit Head:</strong>
+														<input type="text" name="unit_head" class="form-control" value="<?= $unitHead ?>" placeholder="Enter Unit Head">
+													</div>
+													<input type="hidden" name="unit_id" value="<?= $unitId ?>">
+													<button type="submit" class="mt-1 btn btn-primary w-100" name="update_unit">Update Unit</button>
+												</div>
 											</div>
-										</div>
-									</form>
+										</form>
+									</div>
 								</div>
+								
+
 							</div>
 							<!-- /.container-fluid -->
 
@@ -315,7 +275,7 @@
 					<footer class="sticky-footer bg-white">
 							<div class="container my-auto">
 									<div class="copyright text-center my-auto">
-											<span>Copyright &copy; Your Website 2021</span>
+											<span>Copyright &copy; Your Website 2022</span>
 									</div>
 							</div>
 					</footer>
@@ -358,8 +318,6 @@
 
 	<!-- Core plugin JavaScript-->
 	<script src="../.././vendor/jquery-easing/jquery.easing.min.js"></script>
-	<script src="//code.jquery.com/jquery-1.10.1.js"></script>
-
 
 	<!-- Custom scripts for all pages-->
 	<script src="../.././js/sb-admin-2.min.js"></script>
@@ -390,11 +348,6 @@
 		let today = new Date().toISOString().substr(0, 10);
 		document.querySelector("#requestedDate").value = today; // Requested date
 
-	
 	});
-
-	document.getElementById('sample1').addEventListener("change", function () {
-		document.getElementById('sample2').selectedIndex = document.getElementById('sample1').selectedIndex;
-	}, false);
 
 </script>

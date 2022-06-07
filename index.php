@@ -48,8 +48,19 @@
 <head>
     <?php include ('./includes/header.php') ?>
     <title>Login Page</title>
+    <link rel="stylesheet" href="/JRMS/css/sb-admin-2.css">
 </head>
-<style>
+<style type="text/css">
+        
+        #pageback
+        {
+            background-image: url('./img/background.png');
+            background-size: cover;
+	          background-repeat: no-repeat;
+        }
+    </style>
+
+<!-- <style>
 html,
 body {
   height: 100%;
@@ -93,9 +104,9 @@ body {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-</style>
-<body>
-  <main class="form-signin">
+</style> -->
+<body id="pageback">
+  <!-- <main class="form-signin">
     <form action="index.php" method="post">
       <div class="mx-5">
         <img class="img-fluid" src="./assets/img/cmu_logo.png" alt="CMU Logo">
@@ -113,6 +124,63 @@ body {
       <button class="w-100 btn btn-lg btn-success" type="submit" name="login_btn">Sign in</button>
       <p class="text-center">Don't have an account? <a href="register.php">Register Now!</a></p>
     </form>
-  </main>
+  </main> -->
+
+  <div class="container">
+
+<!-- Outer Row -->
+<div class="row justify-content-center py-3">
+
+    <div class="col-xl-10 col-lg-12 col-md-9  py-3 ">
+
+        <div class="card o-hidden border border-white shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-6 d-none d-lg-block " id="bg-login">
+                       <img src="./img/cmujrms.jpg" style="background-size: cover; width: 100%; height: 100%">
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                            </div>
+                            <form class="user" method="POST" action="index.php">
+                                <div class="form-group">
+                                    <input type="email" class="form-control form-control-user"
+                                        id="exampleInputEmail" aria-describedby="emailHelp"
+                                        placeholder="Enter username..." name="email">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control form-control-user"
+                                        id="exampleInputPassword" placeholder="Password" name="password">
+                                </div>
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox small">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck">
+                                        <label class="custom-control-label" for="customCheck">Remember
+                                            Me</label>
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn btn-primary btn-user btn-block" name="login_btn" value="Log in">
+                            </form>
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="forgot-password.html">Forgot Password?</a>
+                            </div>
+                            <div class="text-center">
+                                <a class="small" href="register.php">Create an Account!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
 </body>
 </html>

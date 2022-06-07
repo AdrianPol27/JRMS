@@ -30,6 +30,9 @@
 	if (isset($_GET['outside'])) {
     $outside = $_GET['outside'];
   }
+	if (isset($_GET['from_date'])) {
+    $fromDate = $_GET['from_date'];
+  }
 
 	//Update Request
 	if (isset($_POST['update_request'])) {
@@ -38,10 +41,15 @@
 		$unitHead = $_POST['unit_head'];
 		$quantity = $_POST['quantity'];
 		$unitCost = $_POST['unit_cost'];
-		$totalCost = $quantity * $unitCost;
+		$totalCost = $_POST['total_cost'];
 		$laborNeeded = $_POST['labor_needed'];
 		$completionDate = $_POST['completion_date'];
 		$requestId = $_POST['request_id'];
+		$fromDate = $_POST['from_date'];
+
+		$date1 =  new DateTime($fromDate);
+		$date2 =  new DateTime($completionDate);
+		$daysDone = $date2->diff($date1)->format("%a");
 
 		if (empty($jobOrderNumber)) {
       array_push($errors, "Job Order Number should not be empty!");
@@ -64,7 +72,7 @@
 		if (empty($completionDate)) {
       array_push($errors, "Completion Date should not be empty!");
     } else {
-			$updateRequest = $functions->updateRequest($requestId, $jobOrderNumber, $unitHead, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate);
+			$updateRequest = $functions->updateRequest($requestId, $jobOrderNumber, $unitHead, $quantity, $unitCost, $totalCost, $laborNeeded, $completionDate, $daysDone);
 			if ($updateRequest) {
 				header("Location: index.php");
 			}
@@ -216,7 +224,7 @@
 													<!-- Dropdown - User Information -->
 													<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
 															aria-labelledby="userDropdown">
-															<a class="dropdown-item" href="#">
+															<!-- <a class="dropdown-item" href="#">
 																	<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
 																	Profile
 															</a>
@@ -227,7 +235,7 @@
 															<a class="dropdown-item" href="#">
 																	<i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
 																	Activity Log
-															</a>
+															</a> -->
 															<div class="dropdown-divider"></div>
 															<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
 																	<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -258,12 +266,13 @@
 											<div class="card-body">
 												<p><?= '<strong>Unit: </strong>' . $unit ?></p>
 												<div class="form-floating mb-1">
+													<strong>Unit Head:</strong>
                         	<input type="text" name="unit_head" class="form-control" value="<?= $unitHead ?>" placeholder="Unit Head">
                         </div>
 												<div class="form-floating mb-1">
 													<input type="number" name="job_order_number" class="form-control" placeholder="Job Order Number">
 												</div>
-												<?php if ($outside == 'yes') { ?>
+												<?php if ($outside == 'Yes') { ?>
 													<div class="form-floating mb-1">
 														<input type="number" name="quantity" id="quantity" class="form-control" placeholder="Quantity">
 													</div>
@@ -274,11 +283,16 @@
                         <div class="form-floating mb-1">
                             <input type="number" name="unit_cost" id="unitCost" class="form-control" placeholder="Unit Cost">
                         </div>
+												<div class="form-floating mb-1">
+                            <input type="number" name="total_cost" id="totalCost" class="form-control" placeholder="Total Cost">
+                        </div>
+													<strong>Completion Date:</strong>
                         <div class="form-floating">
                             <input type="date" name="completion_date" id="completionDate" class="form-control" placeholder="Completion Date">
                         </div>
 												<input type="hidden" name="request_id" value="<?= $requestId ?>">
 												<input type="hidden" name="labor_needed" value="<?= $unit ?>">
+												<input type="hidden" name="from_date" value="<?= $fromDate ?>">
 												<button type="submit" class="mt-1 btn btn-primary w-100" name="update_request">Update Request</button>
 											</div>
 										</div>
