@@ -335,8 +335,12 @@
                                                 <?php
                                                     if ($row['status'] == 'Cancelled') {
                                                         echo '<p class="text-danger">Cancelled</p>';
-                                                    } else {
-                                                        echo $row['status'];
+                                                    }
+                                                    if ($row['status'] == 'On-Process') {
+                                                        echo '<p class="text-info">On-Process</p>';
+                                                    } 
+                                                    if ($row['status'] == 'Done') {
+                                                        echo '<p class="text-success">Cancelled</p>';
                                                     }
                                                 ?>
                                             </td>
@@ -357,6 +361,7 @@
                                                 <?php
                                                     if ($row['status'] == 'On-Process') { ?>
                                                     <button class="btn btn-danger w-100" disabled="disabled">Cancel</button>
+                                                    <a href="feedback.php?request_id=<?= $row['request_id'] ?>" class="btn btn-info w-100">Feedback</a>
                                                 <?php } ?>
                                                 <?php
                                                     if ($row['status'] == 'Done') { ?>
