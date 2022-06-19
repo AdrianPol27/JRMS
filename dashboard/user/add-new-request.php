@@ -278,18 +278,6 @@
 													
 													<?php } ?>
 												</select>
-												<select name="department" class="form-control">
-													<?php
-														$fetchDepartmentByCollegeName = $functions->fetchDepartmentByCollegeName($collegeNameAbbr) ;
-														while($row = mysqli_fetch_array($fetchDepartmentByCollegeName)) {
-
-														$departmentName = $row["department_name"];
-													?>
-														
-														<option value="<?= $departmentName ?>"><?= $departmentName ?></option>
-													
-													<?php } ?>
-												</select>
 												<input type="text" name="department" id="department" class="form-control mb-1" placeholder="Department">
 												<textarea name="work_to_be_done" class="form-control w-100" placeholder="Work To Be Done" style="height: 100px; resize: none"></textarea>
 												<input type="hidden" id="requestedDate" name="requested_date">

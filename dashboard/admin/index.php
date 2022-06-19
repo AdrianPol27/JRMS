@@ -328,19 +328,7 @@
                                 <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#generateModal">Generate Monthly List</a>
                                 <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#generateDateModal">Generate By Date</a>
                                 <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#generateStatusModal">Generate By Status</a>
-<!-- 
-                                <button class="btn btn-primary btn-sm" id="Januray">January</button>
-                                <button class="btn btn-primary btn-sm" id="February">February</button>
-                                <button class="btn btn-primary btn-sm" id="March">March</button>
-                                <button class="btn btn-primary btn-sm" id="April">April</button>
-                                <button class="btn btn-primary btn-sm" id="May">May</button>
-                                <button class="btn btn-primary btn-sm" id="June">June</button>
-                                <button class="btn btn-primary btn-sm" id="July">July</button>
-                                <button class="btn btn-primary btn-sm" id="August">August</button>
-                                <button class="btn btn-primary btn-sm" id="September">September</button>
-                                <button class="btn btn-primary btn-sm" id="October">October</button>
-                                <button class="btn btn-primary btn-sm" id="November">November</button>
-                                <button class="btn btn-primary btn-sm" id="December">December</button> -->
+
                             </div>
                         </div>
                         <div class="card-body">
@@ -394,8 +382,12 @@
                                                 <?php
                                                     if ($row['status'] == 'Cancelled') {
                                                         echo '<p class="text-danger">Cancelled</p>';
-                                                    } else {
-                                                        echo $row['status'];
+                                                    }
+                                                    if ($row['status'] == 'On-Process') {
+                                                        echo '<p class="text-info">On-Process</p>';
+                                                    } 
+                                                    if ($row['status'] == 'Done') {
+                                                        echo '<p class="text-success">Cancelled</p>';
                                                     }
                                                 ?>
                                             </td>
