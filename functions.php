@@ -116,6 +116,10 @@
       $result = mysqli_query($this->dbh, "INSERT INTO requests_tbl (user_id, unit, unit_head, college, department, requested_by, work_to_be_done, requested_date, requested_month, status, outside) VALUES ('$userId', '$unit', '$unitHead', '$college', '$department', '$requestedBy', '$workToBeDone', '$requestedDate', '$month', 'Pending', '$outside')");
       return $result;
     }
+    function updateRequestUser($requestId, $unit, $unitHead, $college, $department, $requestedBy, $workToBeDone, $requestedDate, $month, $outside) {
+      $result = mysqli_query($this->dbh, "UPDATE requests_tbl SET unit = '$unit', unit_head = '$unitHead', college = '$college', department = '$department', requested_by = '$requestedBy', work_to_be_done = '$workToBeDone', requested_date = '$requestedDate', requested_month = '$month', outside = '$outside' WHERE request_id = '$requestId'");
+      return $result;
+    }
     function fetchRequestUserId($userId) {
       $result = mysqli_query($this->dbh, "SELECT * FROM requests_tbl WHERE user_id = '$userId'");
       return $result;
