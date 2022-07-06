@@ -313,6 +313,7 @@
                                             <th>Department</th>
                                             <th>Work To Be Done</th>
                                             <th>Completion Date</th>
+                                            <th>Days Done</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -331,6 +332,7 @@
                                             <td><?= $row['department'] ?></td>
                                             <td><?= $row['work_to_be_done'] ?></td>
                                             <td><?= $row['completion_date'] ?></td>
+                                            <td><?= $row['days_done'] ?></td>
                                             <td>
                                                 <?php
                                                     if ($row['status'] == 'Cancelled') {
@@ -361,6 +363,7 @@
                                                 <?php
                                                     if ($row['status'] == 'On-Process') { ?>
                                                     <button class="btn btn-danger w-100" disabled="disabled">Cancel</button>
+                                                    <a href="update-request.php?request_id=<?= $row['request_id'] ?>" class="btn btn-primary w-100">Update</a>
                                                     <a href="feedback.php?request_id=<?= $row['request_id'] ?>" class="btn btn-info w-100">Feedback</a>
                                                 <?php } ?>
                                                 <?php
